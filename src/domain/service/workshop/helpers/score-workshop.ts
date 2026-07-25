@@ -1,8 +1,7 @@
 import {
   DESIGN_COMPLEXITIES,
   type DesignComplexity,
-  type DesignTaste,
-} from "@/constants/design/taste";
+} from "@/constants/design/expression";
 import type { DamageAnalysis } from "@/domain/entity/artifact/damage-analysis.entity";
 import type { DesignOption } from "@/domain/entity/design/design-option.entity";
 import type {
@@ -18,15 +17,18 @@ interface DesignAffinity {
   cautions: MatchCaution[];
 }
 
+/**
+ * 希望テイストの入力を廃止したため、その配分（旧 0.35）は
+ * 素材・金属表現・手間の 3 項目へ振り直している。
+ */
 const AFFINITY_WEIGHTS = {
-  taste: 0.35,
-  material: 0.25,
-  metal: 0.2,
-  complexity: 0.2,
+  material: 0.4,
+  metal: 0.3,
+  complexity: 0.3,
 } as const;
 
-/** テイストが未指定のときの中立値。相性が高くも低くもない扱いにする。 */
-const NEUTRAL_TASTE_SCORE = 0.6;
+/** 素材が「不明」のときの中立値。相性が高くも低くもない扱いにする。 */
+const NEUTRAL_MATERIAL_SCORE = 0.6;
 
 const complexityRank = (complexity: DesignComplexity): number =>
   DESIGN_COMPLEXITIES.indexOf(complexity);
@@ -39,28 +41,16 @@ export const calcDesignAffinity = (params: {
   workshop: Workshop;
   design: DesignOption;
   analysis: DamageAnalysis;
-  tastes: readonly DesignTaste[];
 }): DesignAffinity => {
-  const { workshop, design, analysis, tastes } = params;
+  const { workshop, design, analysis } = params;
   const reasons: MatchReason[] = [];
   const cautions: MatchCaution[] = [];
-
-  const matchedTastes = tastes.filter((taste) =>
-    workshop.styleTags.includes(taste)
-  );
-  const tasteScore =
-    tastes.length === 0
-      ? NEUTRAL_TASTE_SCORE
-      : matchedTastes.length / tastes.length;
-  if (matchedTastes.length > 0) {
-    reasons.push({ code: "tasteMatch", tastes: matchedTastes });
-  }
 
   const materialSupported = workshop.materialSkills.includes(analysis.material);
   const materialScore = materialSupported
     ? 1
     : analysis.material === "unknown"
-      ? NEUTRAL_TASTE_SCORE
+      ? NEUTRAL_MATERIAL_SCORE
       : 0.2;
   if (materialSupported) {
     reasons.push({ code: "materialExperience", material: analysis.material });
@@ -82,7 +72,6 @@ export const calcDesignAffinity = (params: {
   }
 
   const score =
-    tasteScore * AFFINITY_WEIGHTS.taste +
     materialScore * AFFINITY_WEIGHTS.material +
     (metalSupported ? 1 : 0) * AFFINITY_WEIGHTS.metal +
     (complexityFits ? 1 : 0.2) * AFFINITY_WEIGHTS.complexity;

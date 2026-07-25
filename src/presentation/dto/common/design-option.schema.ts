@@ -3,7 +3,7 @@ import {
   DESIGN_COMPLEXITIES,
   LINE_STYLES,
   METAL_COLORS,
-} from "@/constants/design/taste";
+} from "@/constants/design/expression";
 import type { DesignOption } from "@/domain/entity/design/design-option.entity";
 
 /** デザイン案の wire スキーマ。選択した案を後続 API へ送り返すのに使う。 */

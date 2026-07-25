@@ -49,6 +49,10 @@
       "label": "Step 1 · Upload",
       "title": "Show us the piece you love.",
       "lead": "A clear, well-lit photo reads best. We never store your photo on our servers.",
+      "artifactTypeLabel": "What kind of piece is it?",
+      "artifactTypeHint": "e.g. rice bowl, plate, cup, vase, teapot",
+      "materialLabel": "What material is it made of?",
+      "materialHint": "e.g. earthenware, porcelain, stoneware, glass",
       "cta": "Write its story →"
     }
   },
@@ -200,6 +204,19 @@
   },
   "footer": {
     "disclaimer": "Designs, costs and durations produced by AI are for reference only. Whether a repair is possible, whether the piece stays safe for food, and its final price and schedule are settled after the studio inspects it. The studios shown are fictional demo data, not real businesses."
+  },
+  "artifactType": {
+    "rice_bowl": "Rice bowl",
+    "bowl": "Bowl",
+    "small_bowl": "Small bowl",
+    "plate": "Plate",
+    "cup": "Cup",
+    "mug": "Mug",
+    "teapot": "Teapot",
+    "pitcher": "Pitcher",
+    "sake_vessel": "Sake vessel",
+    "vase": "Vase",
+    "other": "Something else"
   },
   "material": {
     "ceramic": "Earthenware",

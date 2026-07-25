@@ -1,9 +1,9 @@
-import type { Material } from "@/constants/artifact/damage";
+import type { ArtifactType } from "@/constants/artifact/artifact-type";
+import type { DamageType, Material } from "@/constants/artifact/damage";
 import type {
   DesignComplexity,
-  DesignTaste,
   MetalColor,
-} from "@/constants/design/taste";
+} from "@/constants/design/expression";
 import type { Locale } from "@/constants/i18n/locale";
 import type { MatchPriority } from "@/constants/project/priority";
 
@@ -32,6 +32,52 @@ export const MATERIAL_WORD: Record<Locale, Record<Material, string>> = {
   },
 };
 
+export const ARTIFACT_TYPE_WORD: Record<Locale, Record<ArtifactType, string>> = {
+  ja: {
+    rice_bowl: "茶碗",
+    bowl: "鉢",
+    small_bowl: "小鉢",
+    plate: "皿",
+    cup: "湯呑",
+    mug: "マグカップ",
+    teapot: "急須",
+    pitcher: "水差し",
+    sake_vessel: "徳利",
+    vase: "花瓶",
+    other: "器",
+  },
+  en: {
+    rice_bowl: "rice bowl",
+    bowl: "bowl",
+    small_bowl: "small bowl",
+    plate: "plate",
+    cup: "cup",
+    mug: "mug",
+    teapot: "teapot",
+    pitcher: "pitcher",
+    sake_vessel: "sake vessel",
+    vase: "vase",
+    other: "piece",
+  },
+};
+
+export const DAMAGE_WORD: Record<Locale, Record<DamageType, string>> = {
+  ja: {
+    chip: "欠け",
+    crack: "ひび",
+    crack_and_chip: "ひびと欠け",
+    break: "割れ",
+    missing_piece: "欠損",
+  },
+  en: {
+    chip: "chip",
+    crack: "crack",
+    crack_and_chip: "crack and chip",
+    break: "break",
+    missing_piece: "missing piece",
+  },
+};
+
 export const METAL_WORD: Record<Locale, Record<MetalColor, string>> = {
   ja: {
     gold: "金継ぎ（丸粉）",
@@ -42,21 +88,6 @@ export const METAL_WORD: Record<Locale, Record<MetalColor, string>> = {
     gold: "gold joinery",
     silver: "silver joinery",
     red_gold: "red-gold joinery (bengara lacquer under gold)",
-  },
-};
-
-export const TASTE_WORD: Record<Locale, Record<DesignTaste, string>> = {
-  ja: {
-    traditional: "伝統的",
-    minimal: "ミニマル",
-    bold: "大胆",
-    botanical: "植物・風景モチーフ",
-  },
-  en: {
-    traditional: "traditional",
-    minimal: "minimal",
-    bold: "bold",
-    botanical: "botanical",
   },
 };
 
@@ -76,3 +107,20 @@ export const money = (value: number, locale: Locale): string =>
   locale === "ja"
     ? `${value.toLocaleString("ja-JP")}円`
     : `¥${value.toLocaleString("en-US")}`;
+
+/**
+ * 「陶器の茶碗」のような、器を指す一続きの語。
+ * 素材が不明のときは素材を言わない（「素材不明の器の茶碗」を避けるため）。
+ */
+export const artifactPhrase = (params: {
+  objectType: ArtifactType;
+  material: Material;
+  locale: Locale;
+}): string => {
+  const { objectType, material, locale } = params;
+  const artifact = ARTIFACT_TYPE_WORD[locale][objectType];
+  if (material === "unknown") return artifact;
+  return locale === "ja"
+    ? `${MATERIAL_WORD.ja[material]}の${artifact}`
+    : `${MATERIAL_WORD.en[material]} ${artifact}`;
+};

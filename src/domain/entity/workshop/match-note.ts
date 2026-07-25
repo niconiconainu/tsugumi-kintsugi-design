@@ -1,9 +1,8 @@
 import type { Material } from "@/constants/artifact/damage";
 import type {
   DesignComplexity,
-  DesignTaste,
   MetalColor,
-} from "@/constants/design/taste";
+} from "@/constants/design/expression";
 
 /**
  * 工房を選ぶ根拠と注意点。
@@ -13,7 +12,6 @@ import type {
  * - 「どの事実に基づく判断か」が型で表れる
  */
 export type MatchReason =
-  | { code: "tasteMatch"; tastes: DesignTaste[] }
   | { code: "materialExperience"; material: Material }
   | { code: "metalSupported"; metalColor: MetalColor }
   | { code: "urushi" };

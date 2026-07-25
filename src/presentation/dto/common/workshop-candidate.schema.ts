@@ -1,7 +1,7 @@
-import type { DesignTaste } from "@/constants/design/taste";
 import type { Locale } from "@/constants/i18n/locale";
 import type { Prefecture } from "@/constants/region/prefecture";
 import type { Region } from "@/constants/region/region";
+import type { WorkshopStyle } from "@/constants/workshop/style";
 import { pickText } from "@/domain/entity/common/localized-text";
 import type {
   MatchCaution,
@@ -26,7 +26,7 @@ export interface WorkshopCandidateResponse {
     region: Region;
     type: string;
     description: string;
-    styleTags: DesignTaste[];
+    styleTags: WorkshopStyle[];
     usesUrushi: boolean;
   };
   estimate: EstimateResponse;

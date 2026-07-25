@@ -1,4 +1,3 @@
-import type { DesignTaste } from "@/constants/design/taste";
 import type { Locale } from "@/constants/i18n/locale";
 import type { MatchPriority } from "@/constants/project/priority";
 import type { ProjectStatus } from "@/constants/project/project-status";
@@ -7,10 +6,11 @@ import type { DamageAnalysis } from "@/domain/entity/artifact/damage-analysis.en
 import type { DesignOption } from "@/domain/entity/design/design-option.entity";
 import type { WorkshopCandidate } from "@/domain/entity/workshop/workshop-candidate.entity";
 
-/** ユーザーが入力した希望条件（設計書 2.1）。 */
+/**
+ * ユーザーが入力した希望条件（設計書 2.1）。
+ * 器の種類・素材は解析結果（`analysis`）側に持つので、ここには入れない。
+ */
 export interface ProjectPreference {
-  story: string;
-  tastes: DesignTaste[];
   prefecture: Prefecture;
   priority: MatchPriority;
 }

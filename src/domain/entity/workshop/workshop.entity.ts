@@ -1,11 +1,11 @@
 import type { Material } from "@/constants/artifact/damage";
 import type {
   DesignComplexity,
-  DesignTaste,
   MetalColor,
-} from "@/constants/design/taste";
+} from "@/constants/design/expression";
 import type { Prefecture } from "@/constants/region/prefecture";
 import type { Region } from "@/constants/region/region";
+import type { WorkshopStyle } from "@/constants/workshop/style";
 import type { LocalizedText } from "@/domain/entity/common/localized-text";
 
 /**
@@ -28,8 +28,8 @@ export class Workshop {
     readonly repairDays: number,
     /** 着手までの工房待機日数 */
     readonly queueDays: number,
-    /** 得意なテイスト */
-    readonly styleTags: readonly DesignTaste[],
+    /** 工房の作風タグ（候補カードでの紹介に使う。マッチングスコアには入れない） */
+    readonly styleTags: readonly WorkshopStyle[],
     /** 扱える素材 */
     readonly materialSkills: readonly Material[],
     /** 対応できる金属表現 */

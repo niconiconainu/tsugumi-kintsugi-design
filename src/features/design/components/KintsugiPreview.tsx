@@ -5,7 +5,7 @@ import {
   METAL_COLOR_HEX,
   type LineStyle,
   type MetalColor,
-} from "@/constants/design/taste";
+} from "@/constants/design/expression";
 import { cn } from "@/features/common/utils/cn";
 
 interface KintsugiPreviewProps {

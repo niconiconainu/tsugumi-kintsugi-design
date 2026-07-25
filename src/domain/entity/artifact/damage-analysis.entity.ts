@@ -1,3 +1,4 @@
+import type { ArtifactType } from "@/constants/artifact/artifact-type";
 import type {
   DamageSeverity,
   DamageType,
@@ -10,10 +11,11 @@ export type AnalysisSource = "vision_model" | "fallback";
 /**
  * 画像解析の構造化結果（設計書 4.2）。
  * Qwen の JSON をそのままドメインに持ち上げたもの。
+ * `objectType` と `material` はユーザーの申告値で確定させ、解析では上書きしない。
  */
 export class DamageAnalysis {
   constructor(
-    readonly objectType: string,
+    readonly objectType: ArtifactType,
     readonly material: Material,
     readonly dominantColors: string[],
     readonly damageType: DamageType,

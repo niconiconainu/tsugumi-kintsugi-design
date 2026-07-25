@@ -49,6 +49,10 @@
       "label": "Step 1 · Upload",
       "title": "直したい器を見せてください。",
       "lead": "明るい場所で撮った写真がいちばん読み取れます。写真はサーバーに保存しません。",
+      "artifactTypeLabel": "どんな器ですか？",
+      "artifactTypeHint": "例: 茶碗・皿・湯呑・花瓶・急須",
+      "materialLabel": "素材は何ですか？",
+      "materialHint": "例: 陶器・磁器・炻器・ガラス",
       "cta": "物語を書く →"
     }
   },
@@ -200,6 +204,19 @@
   },
   "footer": {
     "disclaimer": "AI によるデザインと費用・期間は参考情報です。実際の修理可否、食品利用の安全性、料金、納期は工房による現物確認後に確定します。掲載している工房はデモ用の架空データであり、実在の事業者ではありません。"
+  },
+  "artifactType": {
+    "rice_bowl": "茶碗",
+    "bowl": "鉢",
+    "small_bowl": "小鉢",
+    "plate": "皿",
+    "cup": "湯呑",
+    "mug": "マグカップ",
+    "teapot": "急須",
+    "pitcher": "水差し",
+    "sake_vessel": "徳利",
+    "vase": "花瓶",
+    "other": "その他"
   },
   "material": {
     "ceramic": "陶器",

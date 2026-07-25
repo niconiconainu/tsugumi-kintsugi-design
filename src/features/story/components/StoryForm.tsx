@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { DESIGN_TASTES, type DesignTaste } from "@/constants/design/taste";
+import { DESIGN_TASTES, type DesignTaste } from "@/constants/design/expression";
 import {
   MATCH_PRIORITIES,
   type MatchPriority,

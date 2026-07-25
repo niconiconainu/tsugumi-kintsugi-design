@@ -1,6 +1,12 @@
-import type { DesignTaste } from "@/constants/design/taste";
+import type { ArtifactType } from "@/constants/artifact/artifact-type";
+import type { Material } from "@/constants/artifact/damage";
 import type { Locale } from "@/constants/i18n/locale";
+import type { DamageAnalysis } from "@/domain/entity/artifact/damage-analysis.entity";
 import type { DesignDraft } from "@/domain/entity/design/design-draft";
+import {
+  DAMAGE_WORD,
+  artifactPhrase,
+} from "@/infrastructure/ai/mock/labels";
 import { createRandomFromString } from "@/utils/seeded-random";
 
 /** 言語ごとの原稿。翻訳ではなく、それぞれの言語で読ませる文章として書く。 */
@@ -8,7 +14,7 @@ interface DesignCopy {
   title: string;
   concept: string;
   motifKeywords: string[];
-  /** 提案理由の骨子。`{context}` にストーリー要約が入る。 */
+  /** 提案理由の骨子。`{context}` に器と破損の要約が入る。 */
   rationaleTemplate: string;
 }
 
@@ -17,10 +23,10 @@ interface DesignTemplate {
   lineStyle: DesignDraft["lineStyle"];
   metalColor: DesignDraft["metalColor"];
   complexity: DesignDraft["complexity"];
-  /** 相性の良いテイスト */
-  tastes: readonly DesignTaste[];
-  /** ストーリー中にこの語があれば加点する（言語ごとに別の語彙で見る） */
-  storyKeywords: Record<Locale, readonly string[]>;
+  /** 相性の良い素材 */
+  materials: readonly Material[];
+  /** 相性の良い器の種類 */
+  artifactTypes: readonly ArtifactType[];
   copy: Record<Locale, DesignCopy>;
 }
 
@@ -29,11 +35,8 @@ const DESIGN_TEMPLATES: readonly DesignTemplate[] = [
     lineStyle: "quiet",
     metalColor: "gold",
     complexity: "simple",
-    tastes: ["traditional", "minimal"],
-    storyKeywords: {
-      ja: ["祖母", "祖父", "母", "父", "受け継", "形見", "家族"],
-      en: ["grandmother", "grandfather", "mother", "father", "inherit", "family"],
-    },
+    materials: ["porcelain", "ceramic"],
+    artifactTypes: ["rice_bowl", "cup", "small_bowl"],
     copy: {
       ja: {
         title: "静かな継承",
@@ -41,7 +44,7 @@ const DESIGN_TEMPLATES: readonly DesignTemplate[] = [
           "割れた線をそのまま辿り、細く均一な金線で結び直す案。器の元の輪郭を邪魔せず、直したこと自体を主張しない仕上げ。",
         motifKeywords: ["継承", "静けさ", "余白"],
         rationaleTemplate:
-          "{context}。受け継いだ器そのものの姿を残すため、線を足さず破損線だけを金で辿ります。",
+          "{context}。器そのものの姿を残すため、線を足さず破損線だけを金で辿ります。",
       },
       en: {
         title: "Quiet Inheritance",
@@ -49,7 +52,7 @@ const DESIGN_TEMPLATES: readonly DesignTemplate[] = [
           "Follows the break exactly as it fell, rejoining it with a thin, even line of gold. Nothing is added to the vessel's outline, and the repair never announces itself.",
         motifKeywords: ["inheritance", "stillness", "negative space"],
         rationaleTemplate:
-          "{context}. To keep the inherited piece as it was, we add no lines of our own and gild only the break itself.",
+          "{context}. To keep the piece as it was, we add no lines of our own and gild only the break itself.",
       },
     },
   },
@@ -57,11 +60,8 @@ const DESIGN_TEMPLATES: readonly DesignTemplate[] = [
     lineStyle: "branching",
     metalColor: "red_gold",
     complexity: "elaborate",
-    tastes: ["botanical", "traditional"],
-    storyKeywords: {
-      ja: ["桜", "花", "春", "庭", "木", "枝"],
-      en: ["cherry", "blossom", "flower", "spring", "garden", "tree", "branch"],
-    },
+    materials: ["ceramic", "stoneware"],
+    artifactTypes: ["plate", "bowl", "vase"],
     copy: {
       ja: {
         title: "桜の記憶",
@@ -85,11 +85,8 @@ const DESIGN_TEMPLATES: readonly DesignTemplate[] = [
     lineStyle: "dramatic",
     metalColor: "gold",
     complexity: "elaborate",
-    tastes: ["bold"],
-    storyKeywords: {
-      ja: ["大胆", "派手", "力強", "変化", "新しい"],
-      en: ["bold", "striking", "strong", "change", "new"],
-    },
+    materials: ["stoneware", "ceramic"],
+    artifactTypes: ["bowl", "plate", "vase"],
     copy: {
       ja: {
         title: "大胆な景色",
@@ -113,11 +110,8 @@ const DESIGN_TEMPLATES: readonly DesignTemplate[] = [
     lineStyle: "quiet",
     metalColor: "silver",
     complexity: "simple",
-    tastes: ["minimal"],
-    storyKeywords: {
-      ja: ["静か", "シンプル", "毎日", "日常", "普段"],
-      en: ["quiet", "simple", "every day", "daily", "everyday"],
-    },
+    materials: ["porcelain", "glass"],
+    artifactTypes: ["cup", "mug", "small_bowl", "plate"],
     copy: {
       ja: {
         title: "余白の線",
@@ -141,11 +135,8 @@ const DESIGN_TEMPLATES: readonly DesignTemplate[] = [
     lineStyle: "flowing",
     metalColor: "silver",
     complexity: "standard",
-    tastes: ["botanical", "minimal"],
-    storyKeywords: {
-      ja: ["海", "川", "水", "旅", "波", "雨"],
-      en: ["sea", "river", "water", "travel", "wave", "rain"],
-    },
+    materials: ["glass", "porcelain"],
+    artifactTypes: ["pitcher", "vase", "teapot", "cup"],
     copy: {
       ja: {
         title: "水脈",
@@ -169,11 +160,8 @@ const DESIGN_TEMPLATES: readonly DesignTemplate[] = [
     lineStyle: "dramatic",
     metalColor: "red_gold",
     complexity: "standard",
-    tastes: ["bold", "traditional"],
-    storyKeywords: {
-      ja: ["山", "旅行", "登", "景色", "思い出"],
-      en: ["mountain", "trip", "climb", "view", "memory"],
-    },
+    materials: ["stoneware", "lacquerware"],
+    artifactTypes: ["rice_bowl", "bowl", "sake_vessel"],
     copy: {
       ja: {
         title: "金の稜線",
@@ -197,11 +185,8 @@ const DESIGN_TEMPLATES: readonly DesignTemplate[] = [
     lineStyle: "branching",
     metalColor: "gold",
     complexity: "standard",
-    tastes: ["botanical"],
-    storyKeywords: {
-      ja: ["植物", "庭", "草", "葉", "育", "緑"],
-      en: ["plant", "garden", "grass", "leaf", "grow", "green"],
-    },
+    materials: ["ceramic", "porcelain"],
+    artifactTypes: ["plate", "teapot", "vase"],
     copy: {
       ja: {
         title: "枝ぶり",
@@ -225,11 +210,8 @@ const DESIGN_TEMPLATES: readonly DesignTemplate[] = [
     lineStyle: "flowing",
     metalColor: "gold",
     complexity: "standard",
-    tastes: ["minimal", "bold"],
-    storyKeywords: {
-      ja: ["夜", "星", "空", "誕生", "記念"],
-      en: ["night", "star", "sky", "birth", "anniversary"],
-    },
+    materials: ["lacquerware", "ceramic"],
+    artifactTypes: ["sake_vessel", "bowl", "mug"],
     copy: {
       ja: {
         title: "星宿り",
@@ -251,65 +233,46 @@ const DESIGN_TEMPLATES: readonly DesignTemplate[] = [
   },
 ];
 
-/** ストーリーの要点を 1 文にまとめる（Mock なので語の抽出だけ）。 */
-const buildContext = (
-  story: string,
-  tastes: readonly DesignTaste[],
-  locale: Locale
-): string => {
-  const trimmed = story.trim();
-  if (trimmed.length > 0) {
-    const limit = locale === "ja" ? 40 : 80;
-    const head =
-      trimmed.length > limit ? `${trimmed.slice(0, limit)}…` : trimmed;
-    return locale === "ja"
-      ? `「${head}」というお話をふまえました`
-      : `We worked from what you told us — “${head}”`;
-  }
-  if (tastes.length > 0) {
-    return locale === "ja"
-      ? "ご指定のテイストをふまえました"
-      : "We worked from the style you chose";
-  }
+/** 何を手がかりに案を立てたかを 1 文にまとめる。 */
+const buildContext = (analysis: DamageAnalysis, locale: Locale): string => {
+  const artifact = artifactPhrase({
+    objectType: analysis.objectType,
+    material: analysis.material,
+    locale,
+  });
+  const damage = DAMAGE_WORD[locale][analysis.damageType];
   return locale === "ja"
-    ? "器の破損の形をそのまま手がかりにしました"
-    : "We took the shape of the break itself as the starting point";
+    ? `${artifact}に生じた${damage}の形をそのまま手がかりにしました`
+    : `We took the shape of the ${damage} in your ${artifact} as the starting point`;
 };
 
+/** 器の種類のほうが素材より仕上がりを左右するので、重みを厚くする。 */
 const scoreTemplate = (
   template: DesignTemplate,
-  story: string,
-  tastes: readonly DesignTaste[],
-  locale: Locale
+  analysis: DamageAnalysis
 ): number => {
-  const tasteHits = template.tastes.filter((taste) =>
-    tastes.includes(taste)
-  ).length;
-  const haystack = story.toLowerCase();
-  const keywordHits = template.storyKeywords[locale].filter((keyword) =>
-    haystack.includes(keyword.toLowerCase())
-  ).length;
-  return tasteHits * 2 + keywordHits * 3;
+  const materialHit = template.materials.includes(analysis.material) ? 1 : 0;
+  const artifactHit = template.artifactTypes.includes(analysis.objectType)
+    ? 1
+    : 0;
+  return materialHit * 2 + artifactHit * 3;
 };
 
 /**
- * ストーリーと希望テイストから 3 案を選ぶ。
+ * 器の種類・素材・破損の状態から 3 案を選ぶ。
  * 同点は seed 由来の乱数で崩し、`lineStyle` が重複しないよう散らす。
  */
 export const buildMockDesignDrafts = (params: {
-  story: string;
-  tastes: readonly DesignTaste[];
+  analysis: DamageAnalysis;
   locale: Locale;
   seed: string;
 }): DesignDraft[] => {
   const random = createRandomFromString(params.seed);
-  const context = buildContext(params.story, params.tastes, params.locale);
+  const context = buildContext(params.analysis, params.locale);
 
   const ranked = DESIGN_TEMPLATES.map((template) => ({
     template,
-    score:
-      scoreTemplate(template, params.story, params.tastes, params.locale) +
-      random(),
+    score: scoreTemplate(template, params.analysis) + random(),
   })).sort((a, b) => b.score - a.score);
 
   const selected: DesignTemplate[] = [];

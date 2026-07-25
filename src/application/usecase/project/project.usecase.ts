@@ -31,7 +31,6 @@ export class ProjectUseCase {
       const candidates = await this.workshopMatcherService.match({
         analysis,
         design: selectedDesign,
-        tastes: input.tastes,
         prefecture: input.prefecture,
         priority: input.priority,
         locale: input.locale,
@@ -40,8 +39,6 @@ export class ProjectUseCase {
 
       const project = await this.projectService.save({
         preference: {
-          story: input.story,
-          tastes: input.tastes,
           prefecture: input.prefecture,
           priority: input.priority,
         },

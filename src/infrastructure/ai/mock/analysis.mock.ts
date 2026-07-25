@@ -1,3 +1,4 @@
+import type { ArtifactType } from "@/constants/artifact/artifact-type";
 import type {
   DamageSeverity,
   DamageType,
@@ -13,58 +14,50 @@ import {
 } from "@/utils/seeded-random";
 
 /**
- * Mock 用の器カタログ。Vision モデルが返しそうな objectType / 素材 / 色の組を表で持つ。
- * 同じ画像なら常に同じ結果になるよう、選択は画像のダイジェストから作った乱数で行う。
+ * 素材ごとの見た目カタログ。器の種類と素材はユーザーの申告値で確定するので、
+ * Mock が補うのは「Vision なら読み取れたはずの色と装飾」だけになる。
  */
-const OBJECT_CATALOG: readonly {
-  objectType: string;
-  material: Material;
-  dominantColors: string[];
-  visualMotifs: Record<Locale, string[]>;
-}[] = [
-  {
-    objectType: "ceramic_bowl",
-    material: "ceramic",
+const APPEARANCE_BY_MATERIAL: Record<
+  Material,
+  { dominantColors: string[]; visualMotifs: Record<Locale, string[]> }
+> = {
+  ceramic: {
     dominantColors: ["off-white", "indigo"],
     visualMotifs: {
       ja: ["藍の染付", "手描きの草文"],
       en: ["indigo underglaze", "hand-painted grass motif"],
     },
   },
-  {
-    objectType: "porcelain_teacup",
-    material: "porcelain",
+  porcelain: {
     dominantColors: ["white", "blue"],
     visualMotifs: {
       ja: ["青花の唐草", "縁の呉須線"],
       en: ["blue-and-white arabesque", "cobalt rim line"],
     },
   },
-  {
-    objectType: "stoneware_plate",
-    material: "stoneware",
+  stoneware: {
     dominantColors: ["ash-gray", "brown"],
     visualMotifs: {
       ja: ["灰釉の流れ", "土の粗い肌"],
       en: ["ash glaze runs", "coarse clay surface"],
     },
   },
-  {
-    objectType: "glass_tumbler",
-    material: "glass",
+  glass: {
     dominantColors: ["clear", "pale-green"],
     visualMotifs: { ja: ["気泡の揺らぎ"], en: ["drifting air bubbles"] },
   },
-  {
-    objectType: "lacquer_bowl",
-    material: "lacquerware",
+  lacquerware: {
     dominantColors: ["vermilion", "black"],
     visualMotifs: {
       ja: ["朱漆の艶", "縁の摺り"],
       en: ["vermilion lacquer sheen", "worn rim"],
     },
   },
-];
+  unknown: {
+    dominantColors: ["neutral"],
+    visualMotifs: { ja: ["無地の釉"], en: ["a plain glazed surface"] },
+  },
+};
 
 const DAMAGE_TYPE_POOL: readonly DamageType[] = [
   "chip",
@@ -141,20 +134,25 @@ const buildCrackCount = (random: RandomFn, damageType: DamageType): number => {
 
 /**
  * 画像のダイジェストから、それらしい解析結果を組み立てる。
- * `hints` はユーザーが手で選んだ値（Vision 失敗時のフォールバック導線。設計書 6.3）。
+ * 器の種類と素材はユーザーの申告値をそのまま採用し、Mock は破損の読み取りだけを担う。
+ * `declared.damageType` は Vision 失敗時の手入力（設計書 6.3 のフォールバック導線）。
  */
 export const buildMockAnalysis = (params: {
   imageDigest: string;
   locale: Locale;
-  hints?: { damageType?: DamageType; material?: Material };
+  declared: {
+    artifactType: ArtifactType;
+    material: Material;
+    damageType?: DamageType;
+  };
   source: "vision_model" | "fallback";
 }): DamageAnalysis => {
   const random = createRandomFromString(params.imageDigest);
-  const object = pickOne(random, OBJECT_CATALOG);
+  const { artifactType, material } = params.declared;
+  const appearance = APPEARANCE_BY_MATERIAL[material];
 
   const damageType =
-    params.hints?.damageType ?? pickOne(random, DAMAGE_TYPE_POOL);
-  const material = params.hints?.material ?? object.material;
+    params.declared.damageType ?? pickOne(random, DAMAGE_TYPE_POOL);
   const severity = pickOne(random, SEVERITY_BY_DAMAGE[damageType]);
   const crackCount = buildCrackCount(random, damageType);
   const missingAreaRatio = buildMissingAreaRatio(random, damageType);
@@ -164,14 +162,14 @@ export const buildMockAnalysis = (params: {
     params.source === "fallback" ? 0.4 : randomInt(random, 72, 93) / 100;
 
   return new DamageAnalysis(
-    object.objectType,
+    artifactType,
     material,
-    object.dominantColors,
+    appearance.dominantColors,
     damageType,
     severity,
     crackCount,
     missingAreaRatio,
-    object.visualMotifs[params.locale],
+    appearance.visualMotifs[params.locale],
     REPAIR_NOTE_POOL[params.locale][damageType],
     confidence,
     params.source

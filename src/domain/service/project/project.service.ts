@@ -49,7 +49,8 @@ export class ProjectService {
           : null,
         totalFee: selected?.estimate.totalFee ?? null,
         totalDays: selected?.estimate.totalDays ?? null,
-        story: params.preference.story,
+        objectType: params.analysis.objectType,
+        material: params.analysis.material,
         locale: params.locale,
       });
 

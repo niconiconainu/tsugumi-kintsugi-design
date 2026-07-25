@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { DESIGN_TASTES } from "@/constants/design/taste";
 import { LOCALES } from "@/constants/i18n/locale";
 import { MATCH_PRIORITIES } from "@/constants/project/priority";
 import { PREFECTURES } from "@/constants/region/prefecture";
@@ -12,7 +11,6 @@ export const recommendWorkshopsSchema = z
     locale: z.enum(LOCALES),
     analysis: damageAnalysisSchema,
     design: designOptionSchema,
-    tastes: z.array(z.enum(DESIGN_TASTES)).max(4).default([]),
     prefecture: z.enum(PREFECTURES),
     priority: z.enum(MATCH_PRIORITIES),
   })

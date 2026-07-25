@@ -20,7 +20,6 @@ export class WorkshopUseCase {
       const candidates = await this.workshopMatcherService.match({
         analysis: toDamageAnalysis(input.analysis),
         design: toDesignOption(input.design),
-        tastes: input.tastes,
         prefecture: input.prefecture,
         priority: input.priority,
         locale: input.locale,

@@ -1,3 +1,4 @@
+import type { ArtifactType } from "@/constants/artifact/artifact-type";
 import type {
   DamageSeverity,
   DamageType,
@@ -15,7 +16,7 @@ import {
  * 後続の API では毎回この形で送り返してもらい、ここで domain entity へ復元する。
  */
 export interface DamageAnalysisInput {
-  objectType: string;
+  objectType: ArtifactType;
   material: Material;
   dominantColors: string[];
   damageType: DamageType;

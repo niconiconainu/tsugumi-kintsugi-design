@@ -1,3 +1,4 @@
+import type { ArtifactType } from "@/constants/artifact/artifact-type";
 import type { DamageType, Material } from "@/constants/artifact/damage";
 import type { Locale } from "@/constants/i18n/locale";
 import { isDemoMode } from "@/config/env";
@@ -11,8 +12,15 @@ export interface AnalyzeImageParams {
   imageDataUrl: string;
   /** 所見（repairNotes 等）を書く言語。実 API ではプロンプトに載せる。 */
   locale: Locale;
-  /** Vision 失敗時にユーザーが手で選んだ値（設計書 6.3 のフォールバック導線） */
-  hints?: { damageType?: DamageType; material?: Material };
+  /**
+   * ユーザーの申告値。器の種類と素材は写真と一緒に選ばせるので必ず入る。
+   * `damageType` だけは Vision 失敗時の手入力（設計書 6.3 のフォールバック導線）。
+   */
+  declared: {
+    artifactType: ArtifactType;
+    material: Material;
+    damageType?: DamageType;
+  };
 }
 
 /**
@@ -32,7 +40,7 @@ export class QwenImageAnalysisGateway {
       return buildMockAnalysis({
         imageDigest,
         locale: params.locale,
-        hints: params.hints,
+        declared: params.declared,
         source: "vision_model",
       });
     }
