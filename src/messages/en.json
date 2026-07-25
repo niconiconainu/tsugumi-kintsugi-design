@@ -1,0 +1,340 @@
+{
+  "metadata": {
+    "title": "Tsugumi — kintsugi design, and the studio to make it",
+    "description": "From the story of a broken piece, Tsugumi proposes kintsugi designs, a matching studio, an estimated cost and how long it will take."
+  },
+  "brand": {
+    "name": "Tsugumi",
+    "aiMock": "AI MOCK",
+    "aiMockTitle": "The AI agents are not connected yet. Analysis, design options and copy are mock responses.",
+    "begin": "Get started"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "ja": "日本語"
+  },
+  "steps": {
+    "photo": "Photo",
+    "story": "Story",
+    "design": "Design",
+    "workshop": "Studio",
+    "result": "Result"
+  },
+  "landing": {
+    "eyebrow": "The art of golden repair",
+    "titleLine1": "Give the piece you love",
+    "titleLine2": "a second life, in gold.",
+    "lead": "Send us a photo of the broken piece and the memory attached to it. We show you how it could look reborn in gold, then hand you a studio that can do it — with return shipping, an estimated total and a finish date.",
+    "ctaUpload": "Upload your piece →",
+    "ctaLearn": "What is kintsugi?",
+    "heroPlaceholder": "hero photo: repaired kintsugi bowl",
+    "how": {
+      "step1Title": "Send a photo",
+      "step1Body": "One picture of the cracked or chipped piece you can't bring yourself to throw away.",
+      "step2Title": "See it reborn",
+      "step2Body": "Three kintsugi directions shaped by your story, drawn down to the seams.",
+      "step3Title": "Meet a studio",
+      "step3Body": "Compare fit, price and turnaround, and we connect you to someone who can take it on."
+    },
+    "kintsugi": {
+      "label": "What is Kintsugi",
+      "title": "The break becomes the view.",
+      "photoPlaceholder": "photo: kintsugi bowl detail, gold seams",
+      "body1": "Kintsugi is the Japanese craft of joining a broken vessel with lacquer and dusting the seam with gold. Rather than hiding the damage, it keeps it as part of the time the piece has lived through.",
+      "body2": "It belongs to the same thinking as <em>wabi-sabi</em> — finding worth in what is chipped and worn. Tsugumi connects your piece to the studios that carry on that craft.",
+      "cta": "Get started"
+    },
+    "upload": {
+      "label": "Step 1 · Upload",
+      "title": "Show us the piece you love.",
+      "lead": "A clear, well-lit photo reads best. We never store your photo on our servers.",
+      "cta": "Write its story →"
+    }
+  },
+  "dropzone": {
+    "title": "Drag a photo here, or choose one",
+    "lead": "A shot showing the whole piece and the damage works best",
+    "chooseFile": "Choose file",
+    "changePhoto": "Choose a different photo",
+    "tip": "Tip: shoot against a plain background, with any broken fragments laid out together.",
+    "photoAlt": "The piece you uploaded",
+    "errorType": "Please choose a JPEG or PNG image.",
+    "errorRead": "We couldn't read that image. Please try a different photo."
+  },
+  "story": {
+    "label": "Step 2 · Story",
+    "title": "Tell us about this piece.",
+    "lead": "What you write shapes the meaning of the seams and the choice of studio.",
+    "photoNote": "This photo is not saved on our servers. It is sent only to be analysed.",
+    "storyLabel": "The memory you want to keep",
+    "optional": "optional",
+    "storyPlaceholder": "e.g. A blue tea bowl I inherited from my grandmother. I still remember her drinking from it every morning. I'd like to keep that, but something restrained — like a cherry branch rather than anything showy.",
+    "tasteLabel": "Style you'd like",
+    "tasteHint": "choose any, optional",
+    "prefectureLabel": "Where you'll be sending from",
+    "prefecturePlaceholder": "Select a prefecture",
+    "prefectureNote": "Used only to estimate return shipping and delivery days. We never ask for anything below prefecture level.",
+    "priorityLabel": "What matters most",
+    "submit": "Ask the AI →",
+    "back": "Choose a different photo"
+  },
+  "analyzing": {
+    "label": "Step 3 · Reveal",
+    "title": "Working out how to join it.",
+    "lead": "Reading the photo, then drawing the design options.",
+    "stages": {
+      "vision": "Reading the outline and the damage from the photo",
+      "structure": "Sorting out material, colour and the state of the break",
+      "design": "Shaping the joinery around your story",
+      "lines": "Drawing the seams"
+    },
+    "retry": "Try again",
+    "backToStory": "Back to the form",
+    "networkError": "The request failed. Please try again.",
+    "fallback": {
+      "lead": "We couldn't read the photo. Choose the state of the damage and we'll carry on from there.",
+      "damageTypeLabel": "Type of damage",
+      "materialLabel": "Material",
+      "submit": "Continue with this"
+    }
+  },
+  "design": {
+    "label": "Step 3 · Reveal",
+    "title": "How this piece could return, in gold.",
+    "lead": "Three directions drawn from the break and from your story. The seams are a sketch made in code — the real finish is decided by the studio's hands.",
+    "before": "Before",
+    "after": "Reborn in gold — choose one",
+    "cta": "Find a studio for this →",
+    "back": "Revise the form",
+    "analysisLabel": "Analysis",
+    "analysisTitle": "What we read from the photo"
+  },
+  "analysis": {
+    "material": "Material",
+    "damage": "Damage",
+    "severity": "Severity",
+    "cracks": "Cracks",
+    "crackCount": "{count, plural, one {# crack} other {# cracks}}",
+    "missingArea": "Loss",
+    "confidence": "Confidence",
+    "repairNotes": "Points to watch during repair",
+    "confirmTitle": "Please confirm",
+    "confirmBody": "We are not very confident about this reading. When you talk to the studio, describe the actual damage again in your own words."
+  },
+  "workshop": {
+    "label": "Step 4 · Studios",
+    "title": "Compare who could take it on.",
+    "lead": "Scores and amounts are all computed in code. Change what you prioritise and the order changes with it.",
+    "priorityGroup": "Priority",
+    "prioritySuffix": "{label} first",
+    "weights": "Weighting — design fit {design}% · price {price}% · turnaround {speed}% · distance {distance}%",
+    "selectedDesign": "Selected design",
+    "reselect": "Choose a different design",
+    "loading": "Matching studios…",
+    "loadError": "We couldn't fetch the studio candidates.",
+    "totalScore": "Overall {score}",
+    "finishIn": "Ready in {days}",
+    "urushi": "Genuine urushi",
+    "simplified": "Simplified kintsugi",
+    "cautionTitle": "Please note",
+    "cautionBody": "These studios are fictional demo data. Amounts and durations are estimates; whether a repair is possible, and its final price and schedule, are settled after the studio sees the piece.",
+    "complete": "Put the result together →",
+    "completing": "Putting it together…",
+    "saveError": "We couldn't save the result. Please try again.",
+    "score": {
+      "design": "Design fit",
+      "price": "Price",
+      "speed": "Turnaround",
+      "distance": "Distance"
+    },
+    "fee": {
+      "title": "Fee",
+      "basePrice": "Base price",
+      "damageSurcharge": "Damage surcharge",
+      "designSurcharge": "Design surcharge",
+      "shipping": "Return shipping ({zone})",
+      "shippingValue": "{oneWay} × 2 + packing {packaging}"
+    },
+    "schedule": {
+      "title": "Schedule",
+      "outbound": "To the studio",
+      "queue": "Waiting to start",
+      "repair": "Repair",
+      "return": "Back to you",
+      "days": "{count, plural, one {# day} other {# days}}"
+    }
+  },
+  "result": {
+    "label": "Step 5 · Your project",
+    "title": "This is what you can take to a studio.",
+    "sharedNote": "You're viewing a shared link. The photo isn't stored, so only the seams are shown.",
+    "sentFrom": "Sending from {prefecture}",
+    "workshopLabel": "Studio",
+    "workshopTitle": "Who will do it, and what it costs",
+    "estimatedTotal": "Estimated total",
+    "estimatedFinish": "Estimated finish",
+    "comparedLabel": "Compared",
+    "comparedTitle": "Studios you compared",
+    "table": {
+      "workshop": "Studio",
+      "total": "Total",
+      "finish": "Finish",
+      "score": "Overall",
+      "selected": "chosen"
+    },
+    "cautionTitle": "Please note",
+    "cautionBody": "Amounts and durations are estimates. Whether the piece can be repaired, whether it stays safe for food, and the final price and schedule are all settled once the studio has seen it in person.",
+    "share": "Copy share link",
+    "copied": "Copied",
+    "sharePrompt": "Copy this URL",
+    "restart": "Try another piece",
+    "loading": "Loading…",
+    "notFound": "There is no result to show. Please start again.",
+    "shareLoadError": "We couldn't load the shared project.",
+    "startOver": "Start from the beginning"
+  },
+  "units": {
+    "days": "about {count, plural, one {# day} other {# days}}",
+    "count": "{count}"
+  },
+  "footer": {
+    "disclaimer": "Designs, costs and durations produced by AI are for reference only. Whether a repair is possible, whether the piece stays safe for food, and its final price and schedule are settled after the studio inspects it. The studios shown are fictional demo data, not real businesses."
+  },
+  "material": {
+    "ceramic": "Earthenware",
+    "porcelain": "Porcelain",
+    "glass": "Glass",
+    "lacquerware": "Lacquerware",
+    "stoneware": "Stoneware",
+    "unknown": "Unknown"
+  },
+  "damageType": {
+    "chip": "Chip",
+    "crack": "Crack",
+    "crack_and_chip": "Crack and chip",
+    "break": "Broken apart",
+    "missing_piece": "Missing piece"
+  },
+  "damageSeverity": {
+    "light": "Light",
+    "medium": "Moderate",
+    "heavy": "Severe"
+  },
+  "taste": {
+    "traditional": "Traditional",
+    "minimal": "Minimal",
+    "bold": "Bold",
+    "botanical": "Botanical"
+  },
+  "tasteDescription": {
+    "traditional": "Genuine urushi and gold, keeping the vessel's own bearing.",
+    "minimal": "The fewest lines possible, leaving space and quiet.",
+    "bold": "Treats the break as a view, and shows it as design.",
+    "botanical": "Bends the seams toward branches, leaves and water."
+  },
+  "metalColor": {
+    "gold": "Gold (fine powder)",
+    "silver": "Silver joinery",
+    "red_gold": "Red gold (bengara lacquer + gold)"
+  },
+  "lineStyle": {
+    "quiet": "Quiet, fine line",
+    "flowing": "Flowing curve",
+    "branching": "Branching",
+    "dramatic": "Bold, heavy line"
+  },
+  "complexity": {
+    "simple": "Simple",
+    "standard": "Standard",
+    "elaborate": "Elaborate"
+  },
+  "priority": {
+    "design": "Design fit",
+    "price": "Price",
+    "speed": "Speed"
+  },
+  "priorityDescription": {
+    "design": "Put the expression that suits the story first",
+    "price": "Keep the total as low as possible",
+    "speed": "Get it back in your hands sooner"
+  },
+  "shippingZone": {
+    "SAME": "same region",
+    "ADJACENT": "neighbouring region",
+    "OTHER": "other region",
+    "REMOTE": "Hokkaido / Okinawa"
+  },
+  "matchReason": {
+    "tasteMatch": "Strong in the {tastes} direction you asked for",
+    "materialExperience": "Has a track record with {material}",
+    "metalSupported": "Can carry out {metalColor}",
+    "urushi": "Works in genuine urushi lacquer"
+  },
+  "matchCaution": {
+    "materialNotSupported": "{material} is not among the materials they usually take on",
+    "metalNotSupported": "{metalColor} is outside what they offer, so it needs discussing",
+    "complexityExceeded": "An {complexity} finish may be beyond what they accept",
+    "simpleKintsugi": "This is simplified kintsugi, so daily use as tableware needs checking with the studio"
+  },
+  "region": {
+    "HOKKAIDO": "Hokkaido",
+    "TOHOKU": "Tohoku",
+    "KANTO": "Kanto",
+    "CHUBU": "Chubu",
+    "KANSAI": "Kansai",
+    "CHUGOKU": "Chugoku",
+    "SHIKOKU": "Shikoku",
+    "KYUSHU": "Kyushu",
+    "OKINAWA": "Okinawa"
+  },
+  "prefecture": {
+    "HOKKAIDO": "Hokkaido",
+    "AOMORI": "Aomori",
+    "IWATE": "Iwate",
+    "MIYAGI": "Miyagi",
+    "AKITA": "Akita",
+    "YAMAGATA": "Yamagata",
+    "FUKUSHIMA": "Fukushima",
+    "IBARAKI": "Ibaraki",
+    "TOCHIGI": "Tochigi",
+    "GUNMA": "Gunma",
+    "SAITAMA": "Saitama",
+    "CHIBA": "Chiba",
+    "TOKYO": "Tokyo",
+    "KANAGAWA": "Kanagawa",
+    "NIIGATA": "Niigata",
+    "TOYAMA": "Toyama",
+    "ISHIKAWA": "Ishikawa",
+    "FUKUI": "Fukui",
+    "YAMANASHI": "Yamanashi",
+    "NAGANO": "Nagano",
+    "GIFU": "Gifu",
+    "SHIZUOKA": "Shizuoka",
+    "AICHI": "Aichi",
+    "MIE": "Mie",
+    "SHIGA": "Shiga",
+    "KYOTO": "Kyoto",
+    "OSAKA": "Osaka",
+    "HYOGO": "Hyogo",
+    "NARA": "Nara",
+    "WAKAYAMA": "Wakayama",
+    "TOTTORI": "Tottori",
+    "SHIMANE": "Shimane",
+    "OKAYAMA": "Okayama",
+    "HIROSHIMA": "Hiroshima",
+    "YAMAGUCHI": "Yamaguchi",
+    "TOKUSHIMA": "Tokushima",
+    "KAGAWA": "Kagawa",
+    "EHIME": "Ehime",
+    "KOCHI": "Kochi",
+    "FUKUOKA": "Fukuoka",
+    "SAGA": "Saga",
+    "NAGASAKI": "Nagasaki",
+    "KUMAMOTO": "Kumamoto",
+    "OITA": "Oita",
+    "MIYAZAKI": "Miyazaki",
+    "KAGOSHIMA": "Kagoshima",
+    "OKINAWA": "Okinawa"
+  }
+}

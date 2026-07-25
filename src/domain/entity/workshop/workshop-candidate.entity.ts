@@ -1,4 +1,8 @@
 import type { Estimate } from "@/domain/entity/estimate/estimate.entity";
+import type {
+  MatchCaution,
+  MatchReason,
+} from "@/domain/entity/workshop/match-note";
 import type { Workshop } from "@/domain/entity/workshop/workshop.entity";
 
 /** 総合スコアの内訳（0〜1 の各項と、重み付け後の合計）。 */
@@ -17,16 +21,17 @@ export interface MatchScore {
 
 /**
  * 工房 1 件ぶんの比較結果。
- * `matchReasons` / `cautions` はコードが立てた事実、`explanation` は Copy Agent（LLM）が
- * その事実を言い換えた文章。スコアと金額は LLM が触らない（設計書 4.4）。
+ * `matchReasons` / `cautions` はコードが立てた事実（コード + パラメータ）、
+ * `explanation` は Copy Agent（LLM）がその事実を言い換えた文章。
+ * スコアと金額は LLM が触らない（設計書 4.4）。
  */
 export class WorkshopCandidate {
   constructor(
     readonly workshop: Workshop,
     readonly estimate: Estimate,
     readonly score: MatchScore,
-    readonly matchReasons: string[],
-    readonly cautions: string[],
+    readonly matchReasons: MatchReason[],
+    readonly cautions: MatchCaution[],
     readonly explanation: string
   ) {}
 }

@@ -1,0 +1,340 @@
+{
+  "metadata": {
+    "title": "Tsugumi — 金継ぎデザインと工房をつなぐ",
+    "description": "壊れた品の物語から、金継ぎデザイン案・工房・概算費用・完成までの期間を提案します。"
+  },
+  "brand": {
+    "name": "Tsugumi",
+    "aiMock": "AI MOCK",
+    "aiMockTitle": "AI エージェントは未接続です。解析・デザイン案・説明文は Mock 応答です。",
+    "begin": "はじめる"
+  },
+  "language": {
+    "label": "言語",
+    "en": "English",
+    "ja": "日本語"
+  },
+  "steps": {
+    "photo": "写真",
+    "story": "物語",
+    "design": "デザイン",
+    "workshop": "工房",
+    "result": "結果"
+  },
+  "landing": {
+    "eyebrow": "The art of golden repair",
+    "titleLine1": "大切な器に、",
+    "titleLine2": "金でもう一度の生を。",
+    "lead": "壊れてしまった品の写真と思い出をお預かりします。金継ぎで生まれ変わった姿を示し、それを実現できる工房と、往復送料込みの概算・完成までの目安までまとめてお届けします。",
+    "ctaUpload": "写真をアップロードする →",
+    "ctaLearn": "金継ぎとは",
+    "heroPlaceholder": "hero photo: repaired kintsugi bowl",
+    "how": {
+      "step1Title": "写真を送る",
+      "step1Body": "捨てられずにいる、割れたり欠けたりした器の写真を 1 枚。",
+      "step2Title": "継ぎ方を見る",
+      "step2Body": "思い出をふまえた金継ぎのデザイン案を 3 つ、線まで描いて示します。",
+      "step3Title": "工房と出会う",
+      "step3Body": "相性・価格・納期で比べて、任せられる工房までつなぎます。"
+    },
+    "kintsugi": {
+      "label": "What is Kintsugi",
+      "title": "割れた跡を、景色として。",
+      "photoPlaceholder": "photo: kintsugi bowl detail, gold seams",
+      "body1": "金継ぎは、割れた器を漆で接ぎ、継ぎ目に金粉を蒔いて仕上げる日本の手仕事です。破損を隠すのではなく、その器が経てきた時間の一部として残します。",
+      "body2": "欠けや傷を含めて美しいとする<em>侘び寂び</em>の考え方に連なるもの。Tsugumi は、その技を受け継ぐ工房へ、あなたの器をつなぎます。",
+      "cta": "はじめる"
+    },
+    "upload": {
+      "label": "Step 1 · Upload",
+      "title": "直したい器を見せてください。",
+      "lead": "明るい場所で撮った写真がいちばん読み取れます。写真はサーバーに保存しません。",
+      "cta": "物語を書く →"
+    }
+  },
+  "dropzone": {
+    "title": "写真をドラッグ、または選択してください",
+    "lead": "全体と破損箇所が写っているものが向いています",
+    "chooseFile": "ファイルを選ぶ",
+    "changePhoto": "別の写真を選ぶ",
+    "tip": "ヒント：無地の背景で、割れた破片も一緒に並べて撮ると読み取りやすくなります。",
+    "photoAlt": "アップロードした品物",
+    "errorType": "JPEG または PNG の画像を選んでください。",
+    "errorRead": "画像を読み込めませんでした。別の写真をお試しください。"
+  },
+  "story": {
+    "label": "Step 2 · Story",
+    "title": "この器の物語を聞かせてください。",
+    "lead": "書かれた言葉は、継ぎ線の意味づけと工房選びに使われます。",
+    "photoNote": "この写真はサーバーに保存されません。解析のためだけに送信されます。",
+    "storyLabel": "思い出・残したい意味",
+    "optional": "任意",
+    "storyPlaceholder": "例）祖母から受け継いだ青い茶碗です。毎朝これでお茶を飲んでいた姿を覚えています。思い出は残しつつ、派手すぎない桜の枝のような線にできたら。",
+    "tasteLabel": "希望のテイスト",
+    "tasteHint": "複数可・任意",
+    "prefectureLabel": "お住まいの都道府県",
+    "prefecturePlaceholder": "選択してください",
+    "prefectureNote": "往復送料と配送日数の概算にのみ使用します。市区町村以降は受け取りません。",
+    "priorityLabel": "優先したいこと",
+    "submit": "AI に相談する →",
+    "back": "写真を選び直す"
+  },
+  "analyzing": {
+    "label": "Step 3 · Reveal",
+    "title": "継ぎ方を考えています。",
+    "lead": "写真の読み取りから、デザイン案の生成までを順に進めています。",
+    "stages": {
+      "vision": "写真から器の輪郭と破損を読み取っています",
+      "structure": "素材・色・破損の状態を整理しています",
+      "design": "物語をふまえて継ぎ方を構想しています",
+      "lines": "継ぎ線を引いています"
+    },
+    "retry": "もう一度試す",
+    "backToStory": "入力に戻る",
+    "networkError": "通信に失敗しました。もう一度お試しください。",
+    "fallback": {
+      "lead": "写真からの読み取りができませんでした。破損の状態を選んでいただければ、そのまま提案を続けます。",
+      "damageTypeLabel": "破損の種類",
+      "materialLabel": "素材",
+      "submit": "この内容で続ける"
+    }
+  },
+  "design": {
+    "label": "Step 3 · Reveal",
+    "title": "この器が、金でよみがえる姿。",
+    "lead": "破損の線とお話をもとにした 3 つの方向性です。継ぎ線はコードで描いた見立てで、実際の仕上がりは工房の手仕事で決まります。",
+    "before": "Before",
+    "after": "Reborn in gold — 案を 1 つ選んでください",
+    "cta": "この案で工房を探す →",
+    "back": "入力を見直す",
+    "analysisLabel": "Analysis",
+    "analysisTitle": "写真から読み取れたこと"
+  },
+  "analysis": {
+    "material": "素材",
+    "damage": "破損",
+    "severity": "程度",
+    "cracks": "ひび",
+    "crackCount": "{count} 本",
+    "missingArea": "欠損面積",
+    "confidence": "確信度",
+    "repairNotes": "修復上の留意点",
+    "confirmTitle": "確認のお願い",
+    "confirmBody": "読み取りの確信度が高くありません。工房へ相談する際は、実際の破損状態を改めてお伝えください。"
+  },
+  "workshop": {
+    "label": "Step 4 · Artisans",
+    "title": "任せられる工房を比べる。",
+    "lead": "スコアと金額はすべてコード側の計算です。優先したいことを切り替えると、順位が入れ替わります。",
+    "priorityGroup": "優先条件",
+    "prioritySuffix": "{label}優先",
+    "weights": "重み — デザイン相性 {design}% ／ 価格 {price}% ／ 納期 {speed}% ／ 距離 {distance}%",
+    "selectedDesign": "選んだ案",
+    "reselect": "案を選び直す",
+    "loading": "工房を照合しています…",
+    "loadError": "工房候補の取得に失敗しました。",
+    "totalScore": "総合スコア {score}",
+    "finishIn": "完成まで {days}",
+    "urushi": "本漆",
+    "simplified": "簡易金継ぎ",
+    "cautionTitle": "ご注意",
+    "cautionBody": "掲載している工房は架空のデモデータです。金額・日数は概算であり、実際の修理可否・料金・納期は工房の現物確認後に確定します。",
+    "complete": "結果をまとめる →",
+    "completing": "まとめています…",
+    "saveError": "結果の保存に失敗しました。もう一度お試しください。",
+    "score": {
+      "design": "デザイン相性",
+      "price": "価格",
+      "speed": "納期",
+      "distance": "距離"
+    },
+    "fee": {
+      "title": "Fee",
+      "basePrice": "基本料金",
+      "damageSurcharge": "破損度加算",
+      "designSurcharge": "デザイン加算",
+      "shipping": "往復送料（{zone}）",
+      "shippingValue": "{oneWay} × 2 ＋ 梱包 {packaging}"
+    },
+    "schedule": {
+      "title": "Schedule",
+      "outbound": "往路",
+      "queue": "工房待機",
+      "repair": "修理",
+      "return": "復路",
+      "days": "{count} 日"
+    }
+  },
+  "result": {
+    "label": "Step 5 · Your project",
+    "title": "この形で、工房へ相談できます。",
+    "sharedNote": "共有リンクで表示しています。写真は保存していないため、継ぎ線のみを表示しています。",
+    "sentFrom": "発送元 {prefecture}",
+    "workshopLabel": "Workshop",
+    "workshopTitle": "依頼先と概算",
+    "estimatedTotal": "総額の目安",
+    "estimatedFinish": "完成の目安",
+    "comparedLabel": "Compared",
+    "comparedTitle": "比較した工房",
+    "table": {
+      "workshop": "工房",
+      "total": "総額",
+      "finish": "完成目安",
+      "score": "総合スコア",
+      "selected": "選択"
+    },
+    "cautionTitle": "ご注意",
+    "cautionBody": "金額・期間は概算です。修理可否、食品としての利用可否、最終的な料金と納期は、工房が現物を確認したうえで決まります。",
+    "share": "共有 URL をコピー",
+    "copied": "コピーしました",
+    "sharePrompt": "この URL をコピーしてください",
+    "restart": "別の器で試す",
+    "loading": "読み込んでいます…",
+    "notFound": "表示できる結果がありません。最初からやり直してください。",
+    "shareLoadError": "共有されたプロジェクトを読み込めませんでした。",
+    "startOver": "最初から始める"
+  },
+  "units": {
+    "days": "約{count}日",
+    "count": "{count}"
+  },
+  "footer": {
+    "disclaimer": "AI によるデザインと費用・期間は参考情報です。実際の修理可否、食品利用の安全性、料金、納期は工房による現物確認後に確定します。掲載している工房はデモ用の架空データであり、実在の事業者ではありません。"
+  },
+  "material": {
+    "ceramic": "陶器",
+    "porcelain": "磁器",
+    "glass": "ガラス",
+    "lacquerware": "漆器",
+    "stoneware": "炻器",
+    "unknown": "不明"
+  },
+  "damageType": {
+    "chip": "欠け",
+    "crack": "ひび",
+    "crack_and_chip": "ひび＋欠け",
+    "break": "割れ（分断）",
+    "missing_piece": "欠損（破片なし）"
+  },
+  "damageSeverity": {
+    "light": "軽度",
+    "medium": "中度",
+    "heavy": "重度"
+  },
+  "taste": {
+    "traditional": "伝統的",
+    "minimal": "ミニマル",
+    "bold": "大胆",
+    "botanical": "植物・風景モチーフ"
+  },
+  "tasteDescription": {
+    "traditional": "本漆と金粉の正統な金継ぎ。器の佇まいを崩さない。",
+    "minimal": "線を最小限に留め、余白と静けさを残す。",
+    "bold": "破損線を景色として活かし、意匠として見せる。",
+    "botanical": "枝・葉・水流など、自然のモチーフへ線を寄せる。"
+  },
+  "metalColor": {
+    "gold": "金継ぎ（丸粉）",
+    "silver": "銀継ぎ",
+    "red_gold": "紅金継ぎ（弁柄漆＋金）"
+  },
+  "lineStyle": {
+    "quiet": "静かな細線",
+    "flowing": "流れる曲線",
+    "branching": "枝分かれ",
+    "dramatic": "大胆な太線"
+  },
+  "complexity": {
+    "simple": "簡素",
+    "standard": "標準",
+    "elaborate": "手の込んだ意匠"
+  },
+  "priority": {
+    "design": "デザイン相性",
+    "price": "価格",
+    "speed": "速さ"
+  },
+  "priorityDescription": {
+    "design": "物語と器に合う表現を最優先する",
+    "price": "総額をできるだけ抑える",
+    "speed": "手元に戻るまでの日数を短くする"
+  },
+  "shippingZone": {
+    "SAME": "同一地方",
+    "ADJACENT": "隣接地方",
+    "OTHER": "その他",
+    "REMOTE": "北海道・沖縄"
+  },
+  "matchReason": {
+    "tasteMatch": "希望テイスト「{tastes}」を得意としています",
+    "materialExperience": "{material}の取り扱い実績があります",
+    "metalSupported": "{metalColor}に対応しています",
+    "urushi": "本漆を用いた金継ぎです"
+  },
+  "matchCaution": {
+    "materialNotSupported": "{material}は主な取り扱い素材に含まれていません",
+    "metalNotSupported": "{metalColor}は対応外のため相談が必要です",
+    "complexityExceeded": "{complexity}の仕上げは受注範囲を超える可能性があります",
+    "simpleKintsugi": "簡易金継ぎのため、食器としての日常使用は工房確認が必要です"
+  },
+  "region": {
+    "HOKKAIDO": "北海道",
+    "TOHOKU": "東北",
+    "KANTO": "関東",
+    "CHUBU": "中部",
+    "KANSAI": "関西",
+    "CHUGOKU": "中国",
+    "SHIKOKU": "四国",
+    "KYUSHU": "九州",
+    "OKINAWA": "沖縄"
+  },
+  "prefecture": {
+    "HOKKAIDO": "北海道",
+    "AOMORI": "青森県",
+    "IWATE": "岩手県",
+    "MIYAGI": "宮城県",
+    "AKITA": "秋田県",
+    "YAMAGATA": "山形県",
+    "FUKUSHIMA": "福島県",
+    "IBARAKI": "茨城県",
+    "TOCHIGI": "栃木県",
+    "GUNMA": "群馬県",
+    "SAITAMA": "埼玉県",
+    "CHIBA": "千葉県",
+    "TOKYO": "東京都",
+    "KANAGAWA": "神奈川県",
+    "NIIGATA": "新潟県",
+    "TOYAMA": "富山県",
+    "ISHIKAWA": "石川県",
+    "FUKUI": "福井県",
+    "YAMANASHI": "山梨県",
+    "NAGANO": "長野県",
+    "GIFU": "岐阜県",
+    "SHIZUOKA": "静岡県",
+    "AICHI": "愛知県",
+    "MIE": "三重県",
+    "SHIGA": "滋賀県",
+    "KYOTO": "京都府",
+    "OSAKA": "大阪府",
+    "HYOGO": "兵庫県",
+    "NARA": "奈良県",
+    "WAKAYAMA": "和歌山県",
+    "TOTTORI": "鳥取県",
+    "SHIMANE": "島根県",
+    "OKAYAMA": "岡山県",
+    "HIROSHIMA": "広島県",
+    "YAMAGUCHI": "山口県",
+    "TOKUSHIMA": "徳島県",
+    "KAGAWA": "香川県",
+    "EHIME": "愛媛県",
+    "KOCHI": "高知県",
+    "FUKUOKA": "福岡県",
+    "SAGA": "佐賀県",
+    "NAGASAKI": "長崎県",
+    "KUMAMOTO": "熊本県",
+    "OITA": "大分県",
+    "MIYAZAKI": "宮崎県",
+    "KAGOSHIMA": "鹿児島県",
+    "OKINAWA": "沖縄県"
+  }
+}

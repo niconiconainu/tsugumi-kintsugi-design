@@ -1,22 +1,24 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { cn } from "@/features/common/utils/cn";
+import { usePathname } from "@/i18n/navigation";
 
 /**
  * 工程インジケータ（原本の 4 段ステッパーを、設計書 6.1 の 5 工程に合わせたもの）。
  * 「解析中」は通過するだけなのでデザイン工程に含める。
  */
 const STEPS = [
-  { paths: ["/"], label: "写真" },
-  { paths: ["/story"], label: "物語" },
-  { paths: ["/analyzing", "/designs"], label: "デザイン" },
-  { paths: ["/workshops"], label: "工房" },
-  { paths: ["/result"], label: "結果" },
+  { key: "photo", paths: ["/"] },
+  { key: "story", paths: ["/story"] },
+  { key: "design", paths: ["/analyzing", "/designs"] },
+  { key: "workshop", paths: ["/workshops"] },
+  { key: "result", paths: ["/result"] },
 ] as const;
 
 export const FlowSteps = (): React.JSX.Element | null => {
   const pathname = usePathname();
+  const t = useTranslations("steps");
   const activeIndex = STEPS.findIndex((step) =>
     (step.paths as readonly string[]).includes(pathname)
   );
@@ -29,7 +31,7 @@ export const FlowSteps = (): React.JSX.Element | null => {
         const isActive = index === activeIndex;
         const isReached = isDone || isActive;
         return (
-          <li key={step.label} className="flex items-center">
+          <li key={step.key} className="flex items-center">
             <div className="flex flex-col items-center gap-2">
               <span
                 className={cn(
@@ -48,7 +50,7 @@ export const FlowSteps = (): React.JSX.Element | null => {
                   isReached ? "text-ink" : "text-ink-faint"
                 )}
               >
-                {step.label}
+                {t(step.key)}
               </span>
             </div>
             {index < STEPS.length - 1 && (

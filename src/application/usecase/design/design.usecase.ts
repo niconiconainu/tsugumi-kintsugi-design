@@ -16,6 +16,7 @@ export class DesignUseCase {
         story: input.story,
         tastes: input.tastes,
         analysis,
+        locale: input.locale,
         // 同じ入力なら同じ 3 案・同じ継ぎ線になるよう、入力から seed を作る。
         seed: [
           input.story,

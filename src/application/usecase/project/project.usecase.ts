@@ -34,6 +34,7 @@ export class ProjectUseCase {
         tastes: input.tastes,
         prefecture: input.prefecture,
         priority: input.priority,
+        locale: input.locale,
         limit: RECOMMENDED_WORKSHOP_LIMIT,
       });
 
@@ -49,6 +50,7 @@ export class ProjectUseCase {
         selectedDesignId: selectedDesign.id,
         candidates,
         selectedWorkshopId: input.selectedWorkshopId,
+        locale: input.locale,
       });
       return { project };
     } catch (error) {

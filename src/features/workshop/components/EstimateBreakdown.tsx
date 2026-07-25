@@ -1,6 +1,7 @@
 "use client";
 
-import { formatYen } from "@/features/common/utils/format";
+import { useLocale, useTranslations } from "next-intl";
+import { formatMoney } from "@/features/common/utils/format";
 import type { EstimateResponse } from "@/presentation/dto/common/estimate.schema";
 
 interface EstimateBreakdownProps {
@@ -11,38 +12,58 @@ interface EstimateBreakdownProps {
 export const EstimateBreakdown = ({
   estimate,
 }: EstimateBreakdownProps): React.JSX.Element => {
+  const locale = useLocale();
+  const tFee = useTranslations("workshop.fee");
+  const tSchedule = useTranslations("workshop.schedule");
+  const tZone = useTranslations("shippingZone");
   const { repairFeeBreakdown, shippingBreakdown, scheduleBreakdown } = estimate;
 
   const feeRows = [
-    { label: "基本料金", value: formatYen(repairFeeBreakdown.basePrice) },
     {
-      label: "破損度加算",
-      value: formatYen(repairFeeBreakdown.damageSurcharge),
+      label: tFee("basePrice"),
+      value: formatMoney(repairFeeBreakdown.basePrice, locale),
     },
     {
-      label: "デザイン加算",
-      value: formatYen(repairFeeBreakdown.designSurcharge),
+      label: tFee("damageSurcharge"),
+      value: formatMoney(repairFeeBreakdown.damageSurcharge, locale),
     },
     {
-      label: `往復送料（${shippingBreakdown.zoneLabel}）`,
-      value: `${formatYen(shippingBreakdown.oneWayFee)} × 2 ＋ 梱包 ${formatYen(
-        shippingBreakdown.packagingFee
-      )}`,
+      label: tFee("designSurcharge"),
+      value: formatMoney(repairFeeBreakdown.designSurcharge, locale),
+    },
+    {
+      label: tFee("shipping", { zone: tZone(shippingBreakdown.zone) }),
+      value: tFee("shippingValue", {
+        oneWay: formatMoney(shippingBreakdown.oneWayFee, locale),
+        packaging: formatMoney(shippingBreakdown.packagingFee, locale),
+      }),
     },
   ];
 
   const dayRows = [
-    { label: "往路", value: `${scheduleBreakdown.outboundDays} 日` },
-    { label: "工房待機", value: `${scheduleBreakdown.queueDays} 日` },
-    { label: "修理", value: `${scheduleBreakdown.repairDays} 日` },
-    { label: "復路", value: `${scheduleBreakdown.returnDays} 日` },
+    {
+      label: tSchedule("outbound"),
+      value: tSchedule("days", { count: scheduleBreakdown.outboundDays }),
+    },
+    {
+      label: tSchedule("queue"),
+      value: tSchedule("days", { count: scheduleBreakdown.queueDays }),
+    },
+    {
+      label: tSchedule("repair"),
+      value: tSchedule("days", { count: scheduleBreakdown.repairDays }),
+    },
+    {
+      label: tSchedule("return"),
+      value: tSchedule("days", { count: scheduleBreakdown.returnDays }),
+    },
   ];
 
   return (
     <div className="grid gap-7 sm:grid-cols-2">
       <dl>
         <p className="text-gold mb-3 text-[11px] font-medium tracking-[0.1em] uppercase">
-          Fee
+          {tFee("title")}
         </p>
         <div className="space-y-2">
           {feeRows.map((row) => (
@@ -58,7 +79,7 @@ export const EstimateBreakdown = ({
 
       <dl>
         <p className="text-gold mb-3 text-[11px] font-medium tracking-[0.1em] uppercase">
-          Schedule
+          {tSchedule("title")}
         </p>
         <div className="space-y-2">
           {dayRows.map((row) => (

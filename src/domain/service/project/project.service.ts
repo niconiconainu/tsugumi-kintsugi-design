@@ -1,3 +1,5 @@
+import type { Locale } from "@/constants/i18n/locale";
+import { pickText } from "@/domain/entity/common/localized-text";
 import { Project } from "@/domain/entity/project/project.entity";
 import type { ProjectPreference } from "@/domain/entity/project/project.entity";
 import type { DamageAnalysis } from "@/domain/entity/artifact/damage-analysis.entity";
@@ -16,6 +18,8 @@ export interface SaveProjectParams {
   selectedDesignId: string;
   candidates: WorkshopCandidate[];
   selectedWorkshopId: string | null;
+  /** まとめ文を書く言語 */
+  locale: Locale;
 }
 
 /**
@@ -40,10 +44,13 @@ export class ProjectService {
       const summary = await this.gmiCopyGateway.writeProjectSummary({
         designTitle: design.title,
         designConcept: design.concept,
-        workshopName: selected?.workshop.name ?? null,
+        workshopName: selected
+          ? pickText(selected.workshop.name, params.locale)
+          : null,
         totalFee: selected?.estimate.totalFee ?? null,
         totalDays: selected?.estimate.totalDays ?? null,
         story: params.preference.story,
+        locale: params.locale,
       });
 
       const project = Project.complete({
@@ -55,6 +62,7 @@ export class ProjectService {
         candidates: params.candidates,
         selectedWorkshopId: params.selectedWorkshopId,
         summary,
+        locale: params.locale,
         createdAt: new Date(),
       });
 

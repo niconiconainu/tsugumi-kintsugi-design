@@ -1,19 +1,21 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { DamageType, Material } from "@/constants/artifact/damage";
+import type { Locale } from "@/constants/i18n/locale";
 import { analyzeImage } from "@/features/analysis/api/analyzeImage";
 import { ApiError } from "@/features/common/utils/api-client";
 import { generateDesigns } from "@/features/design/api/generateDesigns";
 import { useProjectStore } from "@/features/project/store/project-store";
+import { useRouter } from "@/i18n/navigation";
 
 /** 進行状況の段階表示（設計書 8「解析中は段階表示する」）。 */
 export const ANALYSIS_STAGES = [
-  { latin: "Vision", label: "写真から器の輪郭と破損を読み取っています" },
-  { latin: "Structure", label: "素材・色・破損の状態を整理しています" },
-  { latin: "Design", label: "物語をふまえて継ぎ方を構想しています" },
-  { latin: "Lines", label: "継ぎ線を引いています" },
+  { latin: "Vision", key: "vision" },
+  { latin: "Structure", key: "structure" },
+  { latin: "Design", key: "design" },
+  { latin: "Lines", key: "lines" },
 ] as const;
 
 /** 段階が切り替わったことが目で追えるだけの最小の間。 */
@@ -39,8 +41,12 @@ interface AnalysisFlowState {
  * 解析 → デザイン生成を順に走らせ、終わったらデザイン画面へ送る。
  * 失敗したらその場で理由を出し、手入力からのやり直しを受け付ける。
  */
-export const useAnalysisFlow = (enabled: boolean): AnalysisFlowState => {
+export const useAnalysisFlow = (
+  enabled: boolean,
+  networkErrorMessage: string
+): AnalysisFlowState => {
   const router = useRouter();
+  const locale = useLocale() as Locale;
   const [stageIndex, setStageIndex] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [needsFallbackInput, setNeedsFallbackInput] = useState(false);
@@ -57,6 +63,7 @@ export const useAnalysisFlow = (enabled: boolean): AnalysisFlowState => {
 
       try {
         const { analysis } = await analyzeImage({
+          locale,
           imageDataUrl: store.imageDataUrl,
           declaredDamageType: hints?.damageType,
           declaredMaterial: hints?.material,
@@ -68,6 +75,7 @@ export const useAnalysisFlow = (enabled: boolean): AnalysisFlowState => {
         setStageIndex(2);
 
         const { designs } = await generateDesigns({
+          locale,
           story: store.story,
           tastes: store.tastes,
           analysis,
@@ -82,13 +90,11 @@ export const useAnalysisFlow = (enabled: boolean): AnalysisFlowState => {
           error instanceof ApiError && error.code.startsWith("A");
         setNeedsFallbackInput(isVisionFailure);
         setErrorMessage(
-          error instanceof ApiError
-            ? error.message
-            : "通信に失敗しました。もう一度お試しください。"
+          error instanceof ApiError ? error.message : networkErrorMessage
         );
       }
     },
-    [router]
+    [locale, networkErrorMessage, router]
   );
 
   useEffect(() => {

@@ -1,4 +1,5 @@
 import type { DamageType, Material } from "@/constants/artifact/damage";
+import type { Locale } from "@/constants/i18n/locale";
 import { isDemoMode } from "@/config/env";
 import type { DamageAnalysis } from "@/domain/entity/artifact/damage-analysis.entity";
 import { buildMockAnalysis } from "@/infrastructure/ai/mock/analysis.mock";
@@ -8,6 +9,8 @@ import { logger } from "@/utils/logger";
 export interface AnalyzeImageParams {
   /** data URL 形式の画像。サーバーには保存しない（設計書 8 プライバシー）。 */
   imageDataUrl: string;
+  /** 所見（repairNotes 等）を書く言語。実 API ではプロンプトに載せる。 */
+  locale: Locale;
   /** Vision 失敗時にユーザーが手で選んだ値（設計書 6.3 のフォールバック導線） */
   hints?: { damageType?: DamageType; material?: Material };
 }
@@ -26,7 +29,12 @@ export class QwenImageAnalysisGateway {
 
     if (isDemoMode()) {
       logger.info("[QwenImageAnalysisGateway] DEMO_MODE: returning mock analysis.");
-      return buildMockAnalysis({ imageDigest, hints: params.hints, source: "vision_model" });
+      return buildMockAnalysis({
+        imageDigest,
+        locale: params.locale,
+        hints: params.hints,
+        source: "vision_model",
+      });
     }
 
     return this.callVisionModel(params, imageDigest);
@@ -36,6 +44,7 @@ export class QwenImageAnalysisGateway {
   buildFallback(params: AnalyzeImageParams): DamageAnalysis {
     return buildMockAnalysis({
       imageDigest: String(hashString(params.imageDataUrl)),
+      locale: params.locale,
       hints: params.hints,
       source: "fallback",
     });
@@ -56,6 +65,7 @@ export class QwenImageAnalysisGateway {
     );
     return buildMockAnalysis({
       imageDigest,
+      locale: params.locale,
       hints: params.hints,
       source: "vision_model",
     });

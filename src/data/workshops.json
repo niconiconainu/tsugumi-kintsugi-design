@@ -1,10 +1,19 @@
 [
   {
     "id": "ws-tokyo-utsuwa",
-    "name": "器と金 東京",
+    "name": {
+      "ja": "器と金 東京",
+      "en": "Utsuwa to Kin, Tokyo"
+    },
     "prefecture": "TOKYO",
-    "type": "伝統金継ぎ",
-    "description": "白磁・青磁を中心に、器の元の佇まいを崩さない継ぎを得意とする工房。",
+    "type": {
+      "ja": "伝統金継ぎ",
+      "en": "Traditional kintsugi"
+    },
+    "description": {
+      "ja": "白磁・青磁を中心に、器の元の佇まいを崩さない継ぎを得意とする工房。",
+      "en": "A studio working mainly with white and celadon porcelain, joining pieces without disturbing the vessel's original character."
+    },
     "basePrice": 8000,
     "repairDays": 30,
     "queueDays": 5,
@@ -16,10 +25,19 @@
   },
   {
     "id": "ws-kyoto-tsugikeshiki",
-    "name": "継ぎ景 京都",
+    "name": {
+      "ja": "継ぎ景 京都",
+      "en": "Tsugikeshiki, Kyoto"
+    },
     "prefecture": "KYOTO",
-    "type": "意匠性の高い金継ぎ",
-    "description": "破損線を景色として読み替える意匠設計。物語性のある依頼を多く受ける。",
+    "type": {
+      "ja": "意匠性の高い金継ぎ",
+      "en": "Design-led kintsugi"
+    },
+    "description": {
+      "ja": "破損線を景色として読み替える意匠設計。物語性のある依頼を多く受ける。",
+      "en": "Reads each break as a landscape to be composed. Often takes on pieces carrying a personal story."
+    },
     "basePrice": 12000,
     "repairDays": 45,
     "queueDays": 10,
@@ -31,10 +49,19 @@
   },
   {
     "id": "ws-fukuoka-hayate",
-    "name": "はやて継ぎ 福岡",
+    "name": {
+      "ja": "はやて継ぎ 福岡",
+      "en": "Hayate Tsugi, Fukuoka"
+    },
     "prefecture": "FUKUOKA",
-    "type": "簡易金継ぎ・短納期",
-    "description": "日用品の小さな欠けを短納期で直す。合成漆を使う簡易金継ぎ。",
+    "type": {
+      "ja": "簡易金継ぎ・短納期",
+      "en": "Simplified kintsugi, fast turnaround"
+    },
+    "description": {
+      "ja": "日用品の小さな欠けを短納期で直す。合成漆を使う簡易金継ぎ。",
+      "en": "Repairs small chips in everyday ware quickly, using synthetic lacquer rather than urushi."
+    },
     "basePrice": 6000,
     "repairDays": 14,
     "queueDays": 2,
@@ -46,10 +73,19 @@
   },
   {
     "id": "ws-kanazawa-urushi",
-    "name": "漆と金 金沢",
+    "name": {
+      "ja": "漆と金 金沢",
+      "en": "Urushi to Kin, Kanazawa"
+    },
     "prefecture": "ISHIKAWA",
-    "type": "漆芸工房の本格金継ぎ",
-    "description": "漆芸の技法をそのまま持ち込む工房。蒔絵に近い装飾まで対応する。",
+    "type": {
+      "ja": "漆芸工房の本格金継ぎ",
+      "en": "Lacquer atelier, full urushi kintsugi"
+    },
+    "description": {
+      "ja": "漆芸の技法をそのまま持ち込む工房。蒔絵に近い装飾まで対応する。",
+      "en": "Brings the full lacquer-art repertoire to repair, up to maki-e level ornamentation."
+    },
     "basePrice": 15000,
     "repairDays": 50,
     "queueDays": 14,
@@ -61,10 +97,19 @@
   },
   {
     "id": "ws-sendai-kakerasha",
-    "name": "かけら舎 仙台",
+    "name": {
+      "ja": "かけら舎 仙台",
+      "en": "Kakerasha, Sendai"
+    },
     "prefecture": "MIYAGI",
-    "type": "日用の器の金継ぎ",
-    "description": "毎日使う器を、使い続けられる状態に戻すことを重視する工房。",
+    "type": {
+      "ja": "日用の器の金継ぎ",
+      "en": "Kintsugi for everyday ware"
+    },
+    "description": {
+      "ja": "毎日使う器を、使い続けられる状態に戻すことを重視する工房。",
+      "en": "Focused on returning daily-use vessels to a state where they can keep being used."
+    },
     "basePrice": 7000,
     "repairDays": 21,
     "queueDays": 4,
@@ -76,10 +121,19 @@
   },
   {
     "id": "ws-matsuyama-umitotsugi",
-    "name": "海と継ぎ 松山",
+    "name": {
+      "ja": "海と継ぎ 松山",
+      "en": "Umi to Tsugi, Matsuyama"
+    },
     "prefecture": "EHIME",
-    "type": "現代器・ガラスの継ぎ",
-    "description": "ガラスや現代作家の器を扱う。銀継ぎによる涼やかな仕上げが得意。",
+    "type": {
+      "ja": "現代器・ガラスの継ぎ",
+      "en": "Contemporary ware and glass"
+    },
+    "description": {
+      "ja": "ガラスや現代作家の器を扱う。銀継ぎによる涼やかな仕上げが得意。",
+      "en": "Works with glass and contemporary studio ware. Known for cool, restrained silver joinery."
+    },
     "basePrice": 9500,
     "repairDays": 25,
     "queueDays": 6,

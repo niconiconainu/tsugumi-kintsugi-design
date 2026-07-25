@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { FallbackDamageForm } from "@/features/analysis/components/FallbackDamageForm";
 import {
   ANALYSIS_STAGES,
@@ -11,9 +11,11 @@ import { Button } from "@/features/common/components/ui/Button";
 import { cn } from "@/features/common/utils/cn";
 import { useFlowGuard } from "@/features/project/hooks/useFlowGuard";
 import { useProjectStore } from "@/features/project/store/project-store";
+import { useRouter } from "@/i18n/navigation";
 
 export const AnalyzingScreen = (): React.JSX.Element | null => {
   const router = useRouter();
+  const t = useTranslations("analyzing");
   const imageDataUrl = useProjectStore((state) => state.imageDataUrl);
   const prefecture = useProjectStore((state) => state.prefecture);
   const isReady = useFlowGuard(
@@ -21,17 +23,13 @@ export const AnalyzingScreen = (): React.JSX.Element | null => {
     imageDataUrl ? "/story" : "/"
   );
   const { stageIndex, errorMessage, needsFallbackInput, retry } =
-    useAnalysisFlow(isReady);
+    useAnalysisFlow(isReady, t("networkError"));
 
   if (!isReady) return null;
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-14">
-      <FlowHeader
-        label="Step 3 · Reveal"
-        title="継ぎ方を考えています。"
-        lead="写真の読み取りから、デザイン案の生成までを順に進めています。"
-      />
+      <FlowHeader label={t("label")} title={t("title")} lead={t("lead")} />
 
       <div className="animate-rise mt-14 flex flex-col items-center gap-12">
         <div className="border-line-warm relative h-44 w-44 overflow-hidden rounded-full border">
@@ -52,7 +50,7 @@ export const AnalyzingScreen = (): React.JSX.Element | null => {
             const isDone = index < stageIndex;
             const isCurrent = index === stageIndex && !errorMessage;
             return (
-              <li key={stage.latin} className="flex items-start gap-4">
+              <li key={stage.key} className="flex items-start gap-4">
                 <span
                   className={cn(
                     "mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold transition",
@@ -77,7 +75,7 @@ export const AnalyzingScreen = (): React.JSX.Element | null => {
                           : "text-ink-faint"
                     )}
                   >
-                    {stage.label}
+                    {t(`stages.${stage.key}`)}
                   </p>
                 </div>
               </li>
@@ -92,9 +90,9 @@ export const AnalyzingScreen = (): React.JSX.Element | null => {
               <FallbackDamageForm onSubmit={(hints) => retry(hints)} />
             ) : (
               <div className="flex justify-center gap-3">
-                <Button onClick={() => retry()}>もう一度試す</Button>
+                <Button onClick={() => retry()}>{t("retry")}</Button>
                 <Button variant="outline" onClick={() => router.push("/story")}>
-                  入力に戻る
+                  {t("backToStory")}
                 </Button>
               </div>
             )}

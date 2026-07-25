@@ -13,17 +13,6 @@ export const REGIONS = [
 
 export type Region = (typeof REGIONS)[number];
 
-export const REGION_LABEL: Record<Region, string> = {
-  HOKKAIDO: "北海道",
-  TOHOKU: "東北",
-  KANTO: "関東",
-  CHUBU: "中部",
-  KANSAI: "関西",
-  CHUGOKU: "中国",
-  SHIKOKU: "四国",
-  KYUSHU: "九州",
-  OKINAWA: "沖縄",
-};
 
 /** 隣接地方。送料区分（同一 / 隣接 / その他）の判定にだけ使う簡易グラフ。 */
 export const ADJACENT_REGIONS: Record<Region, readonly Region[]> = {

@@ -3,17 +3,7 @@ export const MATCH_PRIORITIES = ["design", "price", "speed"] as const;
 
 export type MatchPriority = (typeof MATCH_PRIORITIES)[number];
 
-export const MATCH_PRIORITY_LABEL: Record<MatchPriority, string> = {
-  design: "デザイン相性",
-  price: "価格",
-  speed: "速さ",
-};
 
-export const MATCH_PRIORITY_DESCRIPTION: Record<MatchPriority, string> = {
-  design: "物語と器に合う表現を最優先する",
-  price: "総額をできるだけ抑える",
-  speed: "手元に戻るまでの日数を短くする",
-};
 
 export interface ScoreWeights {
   design: number;

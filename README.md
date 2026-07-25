@@ -52,15 +52,28 @@ Node.js 20 以上。フォントは `public/fonts/` に同梱しているので�
 | `QWEN_*` | — | Qwen Cloud（画像理解）。`DEMO_MODE=false` のときのみ必要 |
 | `GMI_*` | — | GMI Cloud（デザイン / 比較 / 説明文）。同上 |
 
+## 対応言語
+
+英語（既定）と日本語。URL にロケールを含む形で、`/` は `/en` へリダイレクトする。
+ヘッダーの切り替えは同じ画面のまま言語だけ差し替える。
+
+| URL | 言語 |
+|---|---|
+| `/en`, `/en/story`, … | English |
+| `/ja`, `/ja/story`, … | 日本語 |
+
+AI が書く文章（デザイン案・工房の説明文・まとめ）も選んだ言語で生成されます。
+金額・日数・スコアはコード側の計算なので言語によって変わりません。
+
 ## 画面の流れ
 
 ```
-/          写真をアップロード（ランディング兼用）
-/story     思い出・希望テイスト・都道府県・優先条件を入力
-/analyzing 解析 → デザイン生成を段階表示
-/designs   金継ぎデザイン 3 案（写真に継ぎ線を重ねたプレビュー付き）
-/workshops 工房 3 件を比較。優先条件を切り替えると順位が入れ替わる
-/result    まとめ・共有 URL
+/{locale}            写真をアップロード（ランディング兼用）
+/{locale}/story      思い出・希望テイスト・都道府県・優先条件を入力
+/{locale}/analyzing  解析 → デザイン生成を段階表示
+/{locale}/designs    金継ぎデザイン 3 案（写真に継ぎ線を重ねたプレビュー付き）
+/{locale}/workshops  工房 3 件を比較。優先条件を切り替えると順位が入れ替わる
+/{locale}/result     まとめ・共有 URL
 ```
 
 ## API
@@ -88,6 +101,9 @@ src/
 ├── domain/               # Entity / DomainService（純粋サービスと infra 保有サービス）
 ├── infrastructure/       # Repository（Mock 工房 DB）/ AI Gateway（現在 MOCK）
 ├── features/             # 画面側。features-first（screens / components / hooks / api）
+├── i18n/                 # next-intl の routing / request / navigation
+├── messages/             # en.json / ja.json（画面の文言）
+├── proxy.ts              # ロケール解決（Next.js 16 では middleware → proxy）
 ├── constants/            # 送料表・破損度加算・スコア重みなどのカタログ
 ├── config/ error/ utils/
 ├── data/workshops.json   # Mock 工房データ（架空）

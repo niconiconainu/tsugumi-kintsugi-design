@@ -1,5 +1,6 @@
 import { isDemoMode } from "@/config/env";
 import type { DesignTaste } from "@/constants/design/taste";
+import type { Locale } from "@/constants/i18n/locale";
 import type { DamageAnalysis } from "@/domain/entity/artifact/damage-analysis.entity";
 import type { DesignDraft } from "@/domain/entity/design/design-draft";
 import type { DesignSource } from "@/domain/entity/design/design-option.entity";
@@ -10,6 +11,8 @@ export interface GenerateDesignParams {
   story: string;
   tastes: readonly DesignTaste[];
   analysis: DamageAnalysis;
+  /** 案の文章を書く言語 */
+  locale: Locale;
   /** 同じ入力なら同じ案になるようにするための seed */
   seed: string;
 }

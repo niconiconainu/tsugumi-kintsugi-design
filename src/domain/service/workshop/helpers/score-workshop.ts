@@ -1,21 +1,21 @@
-import { MATERIAL_LABEL } from "@/constants/artifact/damage";
 import {
   DESIGN_COMPLEXITIES,
-  DESIGN_COMPLEXITY_LABEL,
-  DESIGN_TASTE_LABEL,
-  METAL_COLOR_LABEL,
   type DesignComplexity,
   type DesignTaste,
 } from "@/constants/design/taste";
 import type { DamageAnalysis } from "@/domain/entity/artifact/damage-analysis.entity";
 import type { DesignOption } from "@/domain/entity/design/design-option.entity";
+import type {
+  MatchCaution,
+  MatchReason,
+} from "@/domain/entity/workshop/match-note";
 import type { Workshop } from "@/domain/entity/workshop/workshop.entity";
 
-/** デザイン相性の内訳（各 0〜1）。合計の重みは下の表で持つ。 */
+/** デザイン相性の算出結果。理由・注意点は文章ではなくコードで返す。 */
 interface DesignAffinity {
   score: number;
-  reasons: string[];
-  cautions: string[];
+  reasons: MatchReason[];
+  cautions: MatchCaution[];
 }
 
 const AFFINITY_WEIGHTS = {
@@ -42,8 +42,8 @@ export const calcDesignAffinity = (params: {
   tastes: readonly DesignTaste[];
 }): DesignAffinity => {
   const { workshop, design, analysis, tastes } = params;
-  const reasons: string[] = [];
-  const cautions: string[] = [];
+  const reasons: MatchReason[] = [];
+  const cautions: MatchCaution[] = [];
 
   const matchedTastes = tastes.filter((taste) =>
     workshop.styleTags.includes(taste)
@@ -53,11 +53,7 @@ export const calcDesignAffinity = (params: {
       ? NEUTRAL_TASTE_SCORE
       : matchedTastes.length / tastes.length;
   if (matchedTastes.length > 0) {
-    reasons.push(
-      `希望テイスト「${matchedTastes
-        .map((taste) => DESIGN_TASTE_LABEL[taste])
-        .join("・")}」を得意としています`
-    );
+    reasons.push({ code: "tasteMatch", tastes: matchedTastes });
   }
 
   const materialSupported = workshop.materialSkills.includes(analysis.material);
@@ -67,28 +63,22 @@ export const calcDesignAffinity = (params: {
       ? NEUTRAL_TASTE_SCORE
       : 0.2;
   if (materialSupported) {
-    reasons.push(`${MATERIAL_LABEL[analysis.material]}の取り扱い実績があります`);
+    reasons.push({ code: "materialExperience", material: analysis.material });
   } else if (analysis.material !== "unknown") {
-    cautions.push(
-      `${MATERIAL_LABEL[analysis.material]}は主な取り扱い素材に含まれていません`
-    );
+    cautions.push({ code: "materialNotSupported", material: analysis.material });
   }
 
   const metalSupported = workshop.metalColors.includes(design.metalColor);
   if (metalSupported) {
-    reasons.push(`${METAL_COLOR_LABEL[design.metalColor]}に対応しています`);
+    reasons.push({ code: "metalSupported", metalColor: design.metalColor });
   } else {
-    cautions.push(
-      `${METAL_COLOR_LABEL[design.metalColor]}は対応外のため相談が必要です`
-    );
+    cautions.push({ code: "metalNotSupported", metalColor: design.metalColor });
   }
 
   const complexityFits =
     complexityRank(workshop.maxComplexity) >= complexityRank(design.complexity);
   if (!complexityFits) {
-    cautions.push(
-      `${DESIGN_COMPLEXITY_LABEL[design.complexity]}の仕上げは受注範囲を超える可能性があります`
-    );
+    cautions.push({ code: "complexityExceeded", complexity: design.complexity });
   }
 
   const score =
@@ -98,9 +88,9 @@ export const calcDesignAffinity = (params: {
     (complexityFits ? 1 : 0.2) * AFFINITY_WEIGHTS.complexity;
 
   if (workshop.usesUrushi) {
-    reasons.push("本漆を用いた金継ぎです");
+    reasons.push({ code: "urushi" });
   } else {
-    cautions.push("簡易金継ぎのため、食器としての日常使用は工房確認が必要です");
+    cautions.push({ code: "simpleKintsugi" });
   }
 
   return { score, reasons, cautions };

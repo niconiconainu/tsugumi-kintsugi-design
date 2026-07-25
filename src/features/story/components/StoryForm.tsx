@@ -1,30 +1,17 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
-import {
-  DESIGN_TASTES,
-  DESIGN_TASTE_DESCRIPTION,
-  DESIGN_TASTE_LABEL,
-  type DesignTaste,
-} from "@/constants/design/taste";
+import { DESIGN_TASTES, type DesignTaste } from "@/constants/design/taste";
 import {
   MATCH_PRIORITIES,
-  MATCH_PRIORITY_DESCRIPTION,
-  MATCH_PRIORITY_LABEL,
   type MatchPriority,
 } from "@/constants/project/priority";
-import {
-  PREFECTURES,
-  PREFECTURE_CATALOG,
-  type Prefecture,
-} from "@/constants/region/prefecture";
+import { PREFECTURES, type Prefecture } from "@/constants/region/prefecture";
 import { Button } from "@/features/common/components/ui/Button";
 import { cn } from "@/features/common/utils/cn";
 import { useProjectStore } from "@/features/project/store/project-store";
-
-const STORY_PLACEHOLDER =
-  "例）祖母から受け継いだ青い茶碗です。毎朝これでお茶を飲んでいた姿を覚えています。思い出は残しつつ、派手すぎない桜の枝のような線にできたら。";
+import { useRouter } from "@/i18n/navigation";
 
 const FIELD_CLASS =
   "border-line-cool bg-paper text-ink placeholder:text-ink-faint focus:border-gold w-full rounded-md border px-4 py-3 text-[15px] focus:outline-none";
@@ -43,6 +30,12 @@ const optionClass = (selected: boolean): string =>
  */
 export const StoryForm = (): React.JSX.Element => {
   const router = useRouter();
+  const t = useTranslations("story");
+  const tTaste = useTranslations("taste");
+  const tTasteDesc = useTranslations("tasteDescription");
+  const tPriority = useTranslations("priority");
+  const tPriorityDesc = useTranslations("priorityDescription");
+  const tPrefecture = useTranslations("prefecture");
   const setPreference = useProjectStore((state) => state.setPreference);
 
   const [story, setStory] = useState(() => useProjectStore.getState().story);
@@ -76,9 +69,9 @@ export const StoryForm = (): React.JSX.Element => {
           htmlFor="story"
           className="text-ink block text-[15px] font-semibold"
         >
-          思い出・残したい意味
+          {t("storyLabel")}
           <span className="text-ink-faint ml-2 text-[13px] font-normal">
-            任意
+            {t("optional")}
           </span>
         </label>
         <textarea
@@ -87,16 +80,16 @@ export const StoryForm = (): React.JSX.Element => {
           onChange={(event) => setStory(event.target.value)}
           rows={6}
           maxLength={2000}
-          placeholder={STORY_PLACEHOLDER}
+          placeholder={t("storyPlaceholder")}
           className={cn(FIELD_CLASS, "mt-3 leading-[1.8]")}
         />
       </section>
 
       <section>
         <p className="text-ink text-[15px] font-semibold">
-          希望のテイスト
+          {t("tasteLabel")}
           <span className="text-ink-faint ml-2 text-[13px] font-normal">
-            複数可・任意
+            {t("tasteHint")}
           </span>
         </p>
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -111,10 +104,10 @@ export const StoryForm = (): React.JSX.Element => {
                 className={optionClass(selected)}
               >
                 <span className="text-ink block text-[15px] font-semibold">
-                  {DESIGN_TASTE_LABEL[taste]}
+                  {tTaste(taste)}
                 </span>
                 <span className="text-ink-soft mt-1 block text-[13px] leading-relaxed">
-                  {DESIGN_TASTE_DESCRIPTION[taste]}
+                  {tTasteDesc(taste)}
                 </span>
               </button>
             );
@@ -127,7 +120,7 @@ export const StoryForm = (): React.JSX.Element => {
           htmlFor="prefecture"
           className="text-ink block text-[15px] font-semibold"
         >
-          お住まいの都道府県
+          {t("prefectureLabel")}
         </label>
         <select
           id="prefecture"
@@ -135,20 +128,20 @@ export const StoryForm = (): React.JSX.Element => {
           onChange={(event) => setPrefecture(event.target.value as Prefecture)}
           className={cn(FIELD_CLASS, "mt-3")}
         >
-          <option value="">選択してください</option>
+          <option value="">{t("prefecturePlaceholder")}</option>
           {PREFECTURES.map((code) => (
             <option key={code} value={code}>
-              {PREFECTURE_CATALOG[code].label}
+              {tPrefecture(code)}
             </option>
           ))}
         </select>
-        <p className="text-ink-soft mt-2 text-[13px]">
-          往復送料と配送日数の概算にのみ使用します。市区町村以降は受け取りません。
-        </p>
+        <p className="text-ink-soft mt-2 text-[13px]">{t("prefectureNote")}</p>
       </section>
 
       <section>
-        <p className="text-ink text-[15px] font-semibold">優先したいこと</p>
+        <p className="text-ink text-[15px] font-semibold">
+          {t("priorityLabel")}
+        </p>
         <div className="mt-3 grid gap-3 sm:grid-cols-3">
           {MATCH_PRIORITIES.map((item) => {
             const selected = priority === item;
@@ -161,10 +154,10 @@ export const StoryForm = (): React.JSX.Element => {
                 className={optionClass(selected)}
               >
                 <span className="text-ink block text-[15px] font-semibold">
-                  {MATCH_PRIORITY_LABEL[item]}
+                  {tPriority(item)}
                 </span>
                 <span className="text-ink-soft mt-1 block text-[13px] leading-relaxed">
-                  {MATCH_PRIORITY_DESCRIPTION[item]}
+                  {tPriorityDesc(item)}
                 </span>
               </button>
             );
@@ -174,10 +167,10 @@ export const StoryForm = (): React.JSX.Element => {
 
       <div className="flex flex-wrap items-center gap-4">
         <Button size="lg" onClick={submit} disabled={!prefecture}>
-          AI に相談する →
+          {t("submit")}
         </Button>
         <Button variant="outline" onClick={() => router.push("/")}>
-          写真を選び直す
+          {t("back")}
         </Button>
       </div>
     </div>

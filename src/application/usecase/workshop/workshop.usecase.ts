@@ -23,6 +23,7 @@ export class WorkshopUseCase {
         tastes: input.tastes,
         prefecture: input.prefecture,
         priority: input.priority,
+        locale: input.locale,
         limit: RECOMMENDED_WORKSHOP_LIMIT,
       });
       if (candidates.length === 0) {

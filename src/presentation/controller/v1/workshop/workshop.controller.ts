@@ -15,6 +15,6 @@ export class WorkshopController {
   async recommend(request: Request): Promise<RecommendationsResponse> {
     const body = recommendWorkshopsSchema.parse(await request.json());
     const result = await this.workshopUseCase.recommendWorkshops(body);
-    return toRecommendationsResponse(result);
+    return toRecommendationsResponse(result, body.locale);
   }
 }

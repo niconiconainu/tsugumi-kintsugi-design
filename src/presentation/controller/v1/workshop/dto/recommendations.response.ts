@@ -1,4 +1,5 @@
 import type { RecommendationsResult } from "@/application/dto/workshop/recommendations.result";
+import type { Locale } from "@/constants/i18n/locale";
 import type { MatchPriority } from "@/constants/project/priority";
 import {
   toWorkshopCandidateResponse,
@@ -11,8 +12,11 @@ export interface RecommendationsResponse {
 }
 
 export const toRecommendationsResponse = (
-  result: RecommendationsResult
+  result: RecommendationsResult,
+  locale: Locale
 ): RecommendationsResponse => ({
   priority: result.priority,
-  candidates: result.candidates.map(toWorkshopCandidateResponse),
+  candidates: result.candidates.map((candidate) =>
+    toWorkshopCandidateResponse(candidate, locale)
+  ),
 });

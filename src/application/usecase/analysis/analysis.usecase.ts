@@ -12,6 +12,7 @@ export class AnalysisUseCase {
     try {
       const analysis = await this.imageAnalysisService.analyze({
         imageDataUrl: input.imageDataUrl,
+        locale: input.locale,
         hints: {
           damageType: input.declaredDamageType,
           material: input.declaredMaterial,

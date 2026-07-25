@@ -130,6 +130,34 @@ controller は素のレスポンスオブジェクトを返すだけ。`data` / 
 - API 呼び出しは `features/<feature>/api/` の純関数（React 非依存）に置き、画面から直接 `fetch` しない
 - クライアント状態は `features/project/store/project-store.ts`（Zustand + sessionStorage）に集約する
 
+## 多言語対応（next-intl）
+
+英語を既定、日本語を第 2 言語とする。URL は必ずロケール接頭辞付き（`/en/...` / `/ja/...`）で、
+`/` は `/en` へリダイレクトする。構成は `tokipick/apps/web` に揃えた。
+
+```
+src/i18n/routing.ts     # locales / defaultLocale / localePrefix
+src/i18n/request.ts     # getRequestConfig（messages の読み込み）
+src/i18n/navigation.ts  # Link / useRouter / usePathname（ロケール接頭辞を自動で付ける）
+src/proxy.ts            # Next.js 16 で middleware → proxy に改称された
+src/messages/{en,ja}.json
+```
+
+- **画面遷移は `@/i18n/navigation` の `Link` / `useRouter` を使う**（`next/link` / `next/navigation` を直接使わない）。
+  `useSearchParams` だけは next-intl に無いので `next/navigation` から取る。
+- **`constants/` に表示用ラベルを置かない**。列挙値・数値表（送料・加算・重み）だけを持ち、
+  ラベルは `messages/*.json` に列挙値と同じキーで並べる（`material.ceramic` など）。
+- **API のレスポンスは表示文字列ではなくコードで返す**（`prefecture: "TOKYO"`, `zone: "SAME"`）。
+  画面側が `t(code)` で開く。例外は工房名・紹介文とデザイン案の文章で、これらは翻訳ではなく
+  「言語ごとの原稿」なので、サーバー側で 1 言語ぶんを選んで返す。
+- **工房を選ぶ理由・注意点はコード + パラメータ**（`domain/entity/workshop/match-note.ts`）。
+  ドメインは表示言語を知らない。文へ開くのは `features/workshop/hooks/useMatchNoteText.ts`。
+- **AI が書く文章は locale をリクエストに載せて渡す**。実 API ではプロンプトの言語指定にあたる。
+  Mock の語彙は `infrastructure/ai/mock/labels.ts`（`messages/*.json` とは別に持つ。
+  実 API に差し替えた時点で丸ごと不要になるため）。
+- 金額の表記は `features/common/utils/format.ts` の `formatMoney(value, locale)`
+  （ja は「1,000円」、en は「¥1,000」）。日数は ICU の複数形で messages 側に置く。
+
 ## デザイン
 
 `docs/design/` の「Tsugumi Design Flow」が唯一の出典。
@@ -151,3 +179,4 @@ controller は素のレスポンスオブジェクトを返すだけ。`data` / 
 - `console.log` を使わない
 - コメントを英語で書かない（日本語に統一。JSDoc も日本語）
 - `@/*` 以外の相対パス import（`../../../`）を使わない
+- 画面に日本語や英語の文字列をベタ書きしない（`messages/*.json` に置く）

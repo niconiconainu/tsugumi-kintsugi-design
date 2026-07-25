@@ -1,18 +1,12 @@
-/** 金額は円の整数で持っているので、表示だけ 3 桁区切りにする。 */
-export const formatYen = (value: number): string =>
-  `${value.toLocaleString("ja-JP")}円`;
-
-export const formatDays = (value: number): string => `約${value}日`;
+/**
+ * 金額は円の整数で持っているので、表示だけロケールに合わせる。
+ * ja は「1,000円」、en は「¥1,000」。
+ */
+export const formatMoney = (value: number, locale: string): string =>
+  locale === "ja"
+    ? `${value.toLocaleString("ja-JP")}円`
+    : `¥${value.toLocaleString("en-US")}`;
 
 /** 0〜1 のスコアを百分率の整数へ。 */
 export const formatScore = (value: number): string =>
   `${Math.round(value * 100)}`;
-
-export const formatDateTime = (iso: string): string =>
-  new Date(iso).toLocaleString("ja-JP", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });

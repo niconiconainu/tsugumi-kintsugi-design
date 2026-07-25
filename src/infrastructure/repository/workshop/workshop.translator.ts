@@ -5,15 +5,16 @@ import type {
   MetalColor,
 } from "@/constants/design/taste";
 import { toRegion, type Prefecture } from "@/constants/region/prefecture";
+import type { LocalizedText } from "@/domain/entity/common/localized-text";
 import { Workshop } from "@/domain/entity/workshop/workshop.entity";
 
 /** workshops.json の 1 レコード。JSON なので型は手書きで固定する。 */
 export interface WorkshopRecord {
   id: string;
-  name: string;
+  name: LocalizedText;
   prefecture: string;
-  type: string;
-  description: string;
+  type: LocalizedText;
+  description: LocalizedText;
   basePrice: number;
   repairDays: number;
   queueDays: number;

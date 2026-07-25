@@ -1,16 +1,15 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import {
   DAMAGE_TYPES,
-  DAMAGE_TYPE_LABEL,
   MATERIALS,
-  MATERIAL_LABEL,
   type DamageType,
   type Material,
 } from "@/constants/artifact/damage";
-import { Button } from "@/features/common/components/ui/Button";
 import type { AnalysisFallbackHints } from "@/features/analysis/hooks/useAnalysisFlow";
+import { Button } from "@/features/common/components/ui/Button";
 
 interface FallbackDamageFormProps {
   onSubmit: (hints: AnalysisFallbackHints) => void;
@@ -26,19 +25,20 @@ const FIELD_CLASS =
 export const FallbackDamageForm = ({
   onSubmit,
 }: FallbackDamageFormProps): React.JSX.Element => {
+  const t = useTranslations("analyzing.fallback");
+  const tDamage = useTranslations("damageType");
+  const tMaterial = useTranslations("material");
   const [damageType, setDamageType] = useState<DamageType>("crack_and_chip");
   const [material, setMaterial] = useState<Material>("ceramic");
 
   return (
     <div className="border-line bg-paper space-y-6 rounded-lg border p-7">
-      <p className="text-ink-muted text-[15px] leading-relaxed">
-        写真からの読み取りができませんでした。破損の状態を選んでいただければ、そのまま提案を続けます。
-      </p>
+      <p className="text-ink-muted text-[15px] leading-relaxed">{t("lead")}</p>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="block">
           <span className="text-ink text-[14px] font-semibold">
-            破損の種類
+            {t("damageTypeLabel")}
           </span>
           <select
             value={damageType}
@@ -49,14 +49,16 @@ export const FallbackDamageForm = ({
           >
             {DAMAGE_TYPES.map((type) => (
               <option key={type} value={type}>
-                {DAMAGE_TYPE_LABEL[type]}
+                {tDamage(type)}
               </option>
             ))}
           </select>
         </label>
 
         <label className="block">
-          <span className="text-ink text-[14px] font-semibold">素材</span>
+          <span className="text-ink text-[14px] font-semibold">
+            {t("materialLabel")}
+          </span>
           <select
             value={material}
             onChange={(event) => setMaterial(event.target.value as Material)}
@@ -64,7 +66,7 @@ export const FallbackDamageForm = ({
           >
             {MATERIALS.map((item) => (
               <option key={item} value={item}>
-                {MATERIAL_LABEL[item]}
+                {tMaterial(item)}
               </option>
             ))}
           </select>
@@ -72,7 +74,7 @@ export const FallbackDamageForm = ({
       </div>
 
       <Button onClick={() => onSubmit({ damageType, material })}>
-        この内容で続ける
+        {t("submit")}
       </Button>
     </div>
   );

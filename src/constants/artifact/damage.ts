@@ -10,14 +10,6 @@ export const MATERIALS = [
 
 export type Material = (typeof MATERIALS)[number];
 
-export const MATERIAL_LABEL: Record<Material, string> = {
-  ceramic: "陶器",
-  porcelain: "磁器",
-  glass: "ガラス",
-  lacquerware: "漆器",
-  stoneware: "炻器",
-  unknown: "不明",
-};
 
 export const DAMAGE_TYPES = [
   "chip",
@@ -29,23 +21,11 @@ export const DAMAGE_TYPES = [
 
 export type DamageType = (typeof DAMAGE_TYPES)[number];
 
-export const DAMAGE_TYPE_LABEL: Record<DamageType, string> = {
-  chip: "欠け",
-  crack: "ひび",
-  crack_and_chip: "ひび＋欠け",
-  break: "割れ（分断）",
-  missing_piece: "欠損（破片なし）",
-};
 
 export const DAMAGE_SEVERITIES = ["light", "medium", "heavy"] as const;
 
 export type DamageSeverity = (typeof DAMAGE_SEVERITIES)[number];
 
-export const DAMAGE_SEVERITY_LABEL: Record<DamageSeverity, string> = {
-  light: "軽度",
-  medium: "中度",
-  heavy: "重度",
-};
 
 /**
  * 破損度による修理料金の加算（円）と修理日数の加算（日）。

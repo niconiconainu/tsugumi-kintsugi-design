@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { prefectureLabel } from "@/constants/region/prefecture";
+import type { Prefecture } from "@/constants/region/prefecture";
 import { ApiError } from "@/features/common/utils/api-client";
 import { useProjectStore } from "@/features/project/store/project-store";
 import { fetchProject } from "@/features/result/api/projects";
@@ -18,7 +18,7 @@ export interface ResultView {
   selectedDesignId: string | null;
   candidates: WorkshopCandidateResponse[];
   selectedWorkshopId: string | null;
-  prefectureLabel: string;
+  prefecture: Prefecture;
   /** 共有 URL から開いた場合は写真が無い（サーバーに保存していないため）。 */
   imageDataUrl: string | null;
 }
@@ -33,7 +33,10 @@ interface ResultViewState {
  * 結果画面の表示データ。
  * 自分で作った流れは store から、共有 URL（`?id=`）で開いた場合は API から組み立てる。
  */
-export const useResultView = (enabled: boolean): ResultViewState => {
+export const useResultView = (
+  enabled: boolean,
+  fallbackErrorMessage: string
+): ResultViewState => {
   const searchParams = useSearchParams();
   const sharedId = searchParams.get("id");
 
@@ -71,15 +74,13 @@ export const useResultView = (enabled: boolean): ResultViewState => {
           selectedDesignId: project.selectedDesignId,
           candidates: project.candidates,
           selectedWorkshopId: project.selectedWorkshopId,
-          prefectureLabel: project.preference.prefectureLabel,
+          prefecture: project.preference.prefecture,
           imageDataUrl: null,
         });
       } catch (error) {
         if (!cancelled) {
           setErrorMessage(
-            error instanceof ApiError
-              ? error.message
-              : "共有されたプロジェクトを読み込めませんでした。"
+            error instanceof ApiError ? error.message : fallbackErrorMessage
           );
         }
       } finally {
@@ -91,7 +92,7 @@ export const useResultView = (enabled: boolean): ResultViewState => {
     return () => {
       cancelled = true;
     };
-  }, [enabled, isShared, sharedId]);
+  }, [enabled, fallbackErrorMessage, isShared, sharedId]);
 
   if (isShared) return { view: shared, isLoading, errorMessage };
 
@@ -108,7 +109,7 @@ export const useResultView = (enabled: boolean): ResultViewState => {
       selectedDesignId,
       candidates,
       selectedWorkshopId,
-      prefectureLabel: prefectureLabel(storePrefecture),
+      prefecture: storePrefecture,
       imageDataUrl,
     },
     isLoading: false,

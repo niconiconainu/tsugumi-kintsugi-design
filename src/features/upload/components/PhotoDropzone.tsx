@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { cn } from "@/features/common/utils/cn";
 import {
@@ -16,6 +17,7 @@ export const PhotoDropzone = ({
   imageDataUrl,
   onSelect,
 }: PhotoDropzoneProps): React.JSX.Element => {
+  const t = useTranslations("dropzone");
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,14 +25,14 @@ export const PhotoDropzone = ({
   const handleFile = async (file: File | undefined): Promise<void> => {
     if (!file) return;
     if (!isAcceptedImage(file)) {
-      setError("JPEG または PNG の画像を選んでください。");
+      setError(t("errorType"));
       return;
     }
     try {
       setError(null);
       onSelect(await fileToResizedDataUrl(file));
     } catch {
-      setError("画像を読み込めませんでした。別の写真をお試しください。");
+      setError(t("errorRead"));
     }
   };
 
@@ -58,7 +60,7 @@ export const PhotoDropzone = ({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={imageDataUrl}
-              alt="アップロードした品物"
+              alt={t("photoAlt")}
               className="max-h-[380px] w-full rounded-md object-contain"
             />
           </div>
@@ -79,17 +81,15 @@ export const PhotoDropzone = ({
               </svg>
             </div>
             <p className="text-ink-strong text-[17px] font-semibold">
-              写真をドラッグ、または選択してください
+              {t("title")}
             </p>
-            <p className="text-ink-soft mt-1.5 text-[14px]">
-              全体と破損箇所が写っているものが向いています
-            </p>
+            <p className="text-ink-soft mt-1.5 text-[14px]">{t("lead")}</p>
             <button
               type="button"
               onClick={() => inputRef.current?.click()}
               className="bg-ink-strong text-cream mt-6 rounded-full px-6 py-2.5 text-[14px] font-medium transition hover:brightness-125"
             >
-              ファイルを選ぶ
+              {t("chooseFile")}
             </button>
           </div>
         )}
@@ -109,14 +109,14 @@ export const PhotoDropzone = ({
           onClick={() => inputRef.current?.click()}
           className="text-ink-soft hover:text-ink mt-4 text-[13px] underline underline-offset-4"
         >
-          別の写真を選ぶ
+          {t("changePhoto")}
         </button>
       )}
 
       {error && <p className="text-alert mt-4 text-[13px]">{error}</p>}
 
       <p className="text-ink-soft mt-6 text-center text-[13px] leading-relaxed">
-        ヒント：無地の背景で、割れた破片も一緒に並べて撮ると読み取りやすくなります。
+        {t("tip")}
       </p>
     </div>
   );

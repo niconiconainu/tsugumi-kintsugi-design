@@ -1,15 +1,12 @@
 "use client";
 
-import { DESIGN_TASTE_LABEL, type DesignTaste } from "@/constants/design/taste";
+import { useLocale, useTranslations } from "next-intl";
 import { Chip } from "@/features/common/components/ui/Chip";
 import { cn } from "@/features/common/utils/cn";
-import {
-  formatDays,
-  formatScore,
-  formatYen,
-} from "@/features/common/utils/format";
+import { formatMoney, formatScore } from "@/features/common/utils/format";
 import { EstimateBreakdown } from "@/features/workshop/components/EstimateBreakdown";
 import { ScoreBars } from "@/features/workshop/components/ScoreBars";
+import { useMatchNoteText } from "@/features/workshop/hooks/useMatchNoteText";
 import type { WorkshopCandidateResponse } from "@/presentation/dto/common/workshop-candidate.schema";
 
 interface WorkshopCardProps {
@@ -25,6 +22,13 @@ export const WorkshopCard = ({
   selected,
   onSelect,
 }: WorkshopCardProps): React.JSX.Element => {
+  const locale = useLocale();
+  const t = useTranslations("workshop");
+  const tTaste = useTranslations("taste");
+  const tPrefecture = useTranslations("prefecture");
+  const tRegion = useTranslations("region");
+  const tUnits = useTranslations("units");
+  const { caution } = useMatchNoteText();
   const { workshop, estimate, score } = candidate;
 
   return (
@@ -54,7 +58,7 @@ export const WorkshopCard = ({
               {workshop.name}
             </h3>
             <p className="text-ink-soft mt-1 text-[13px]">
-              {workshop.prefectureLabel}（{workshop.regionLabel}） ·{" "}
+              {tPrefecture(workshop.prefecture)} ({tRegion(workshop.region)}) ·{" "}
               {workshop.type}
             </p>
           </div>
@@ -62,13 +66,15 @@ export const WorkshopCard = ({
 
         <div className="text-right">
           <p className="font-display text-ink text-[30px] font-medium tabular-nums">
-            {formatYen(estimate.totalFee)}
+            {formatMoney(estimate.totalFee, locale)}
           </p>
           <p className="text-ink-muted mt-0.5 text-[13px] tabular-nums">
-            完成まで {formatDays(estimate.totalDays)}
+            {t("finishIn", {
+              days: tUnits("days", { count: estimate.totalDays }),
+            })}
           </p>
           <p className="text-gold mt-1 text-[12px] font-medium">
-            総合スコア {formatScore(score.total)}
+            {t("totalScore", { score: formatScore(score.total) })}
           </p>
         </div>
       </div>
@@ -80,11 +86,11 @@ export const WorkshopCard = ({
       <div className="mt-5 flex flex-wrap gap-1.5">
         {workshop.styleTags.map((tag) => (
           <Chip key={tag} tone="gold">
-            {DESIGN_TASTE_LABEL[tag as DesignTaste]}
+            {tTaste(tag)}
           </Chip>
         ))}
         <Chip tone={workshop.usesUrushi ? "gold" : "neutral"}>
-          {workshop.usesUrushi ? "本漆" : "簡易金継ぎ"}
+          {workshop.usesUrushi ? t("urushi") : t("simplified")}
         </Chip>
       </div>
 
@@ -98,9 +104,12 @@ export const WorkshopCard = ({
 
       {candidate.cautions.length > 0 && (
         <ul className="bg-alert-bg mt-6 space-y-1 rounded-lg px-4 py-3">
-          {candidate.cautions.map((caution) => (
-            <li key={caution} className="text-alert text-[13px] leading-relaxed">
-              ・{caution}
+          {candidate.cautions.map((item) => (
+            <li
+              key={item.code}
+              className="text-alert text-[13px] leading-relaxed"
+            >
+              ・{caution(item)}
             </li>
           ))}
         </ul>

@@ -12,7 +12,6 @@ export const SHIPPING_ZONES = [
 export type ShippingZone = (typeof SHIPPING_ZONES)[number];
 
 interface ShippingRate {
-  label: string;
   /** 片道送料（円） */
   oneWayFee: number;
   /** 片道の配送日数 */
@@ -21,26 +20,12 @@ interface ShippingRate {
   proximityScore: number;
 }
 
+/** 区分の表示名は messages 側で持つ。ここには数値だけを置く。 */
 export const SHIPPING_RATE_TABLE: Record<ShippingZone, ShippingRate> = {
-  SAME: { label: "同一地方", oneWayFee: 900, oneWayDays: 1, proximityScore: 1 },
-  ADJACENT: {
-    label: "隣接地方",
-    oneWayFee: 1200,
-    oneWayDays: 2,
-    proximityScore: 0.75,
-  },
-  OTHER: {
-    label: "その他",
-    oneWayFee: 1600,
-    oneWayDays: 3,
-    proximityScore: 0.45,
-  },
-  REMOTE: {
-    label: "北海道・沖縄",
-    oneWayFee: 2200,
-    oneWayDays: 3,
-    proximityScore: 0.2,
-  },
+  SAME: { oneWayFee: 900, oneWayDays: 1, proximityScore: 1 },
+  ADJACENT: { oneWayFee: 1200, oneWayDays: 2, proximityScore: 0.75 },
+  OTHER: { oneWayFee: 1600, oneWayDays: 3, proximityScore: 0.45 },
+  REMOTE: { oneWayFee: 2200, oneWayDays: 3, proximityScore: 0.2 },
 };
 
 /** 割れ物梱包資材費（往復で 1 回のみ加算。設計書 5.3 の「梱包オプション」）。 */

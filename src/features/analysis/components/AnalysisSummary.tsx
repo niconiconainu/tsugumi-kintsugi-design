@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  DAMAGE_SEVERITY_LABEL,
-  DAMAGE_TYPE_LABEL,
-  MATERIAL_LABEL,
-} from "@/constants/artifact/damage";
+import { useTranslations } from "next-intl";
 import { Callout } from "@/features/common/components/ui/Callout";
 import type { DamageAnalysisResponse } from "@/presentation/dto/common/damage-analysis.schema";
 
@@ -15,16 +11,27 @@ interface AnalysisSummaryProps {
 export const AnalysisSummary = ({
   analysis,
 }: AnalysisSummaryProps): React.JSX.Element => {
+  const t = useTranslations("analysis");
+  const tMaterial = useTranslations("material");
+  const tDamage = useTranslations("damageType");
+  const tSeverity = useTranslations("damageSeverity");
+
   const items = [
-    { label: "素材", value: MATERIAL_LABEL[analysis.material] },
-    { label: "破損", value: DAMAGE_TYPE_LABEL[analysis.damageType] },
-    { label: "程度", value: DAMAGE_SEVERITY_LABEL[analysis.damageSeverity] },
-    { label: "ひび", value: `${analysis.crackCount} 本` },
+    { label: t("material"), value: tMaterial(analysis.material) },
+    { label: t("damage"), value: tDamage(analysis.damageType) },
+    { label: t("severity"), value: tSeverity(analysis.damageSeverity) },
     {
-      label: "欠損面積",
+      label: t("cracks"),
+      value: t("crackCount", { count: analysis.crackCount }),
+    },
+    {
+      label: t("missingArea"),
       value: `${Math.round(analysis.missingAreaRatio * 100)}%`,
     },
-    { label: "確信度", value: `${Math.round(analysis.confidence * 100)}%` },
+    {
+      label: t("confidence"),
+      value: `${Math.round(analysis.confidence * 100)}%`,
+    },
   ];
 
   return (
@@ -44,7 +51,7 @@ export const AnalysisSummary = ({
 
       <div className="grid gap-4 md:grid-cols-2">
         {analysis.repairNotes.length > 0 && (
-          <Callout title="修復上の留意点">
+          <Callout title={t("repairNotes")}>
             <ul className="space-y-1">
               {analysis.repairNotes.map((note) => (
                 <li key={note}>・{note}</li>
@@ -54,8 +61,8 @@ export const AnalysisSummary = ({
         )}
 
         {analysis.needsUserConfirmation && (
-          <Callout title="確認のお願い" tone="caution">
-            読み取りの確信度が高くありません。工房へ相談する際は、実際の破損状態を改めてお伝えください。
+          <Callout title={t("confirmTitle")} tone="caution">
+            {t("confirmBody")}
           </Callout>
         )}
       </div>

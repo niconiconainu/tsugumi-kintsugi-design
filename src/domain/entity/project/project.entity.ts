@@ -1,4 +1,5 @@
 import type { DesignTaste } from "@/constants/design/taste";
+import type { Locale } from "@/constants/i18n/locale";
 import type { MatchPriority } from "@/constants/project/priority";
 import type { ProjectStatus } from "@/constants/project/project-status";
 import type { Prefecture } from "@/constants/region/prefecture";
@@ -29,6 +30,8 @@ export class Project {
     readonly candidates: WorkshopCandidate[],
     readonly selectedWorkshopId: string | null,
     readonly summary: string,
+    /** どの言語で書かれた結果か */
+    readonly locale: Locale,
     readonly createdAt: Date
   ) {}
 
@@ -45,6 +48,7 @@ export class Project {
     candidates: WorkshopCandidate[];
     selectedWorkshopId: string | null;
     summary: string;
+    locale: Locale;
     createdAt: Date;
   }): Project {
     return new Project(
@@ -57,6 +61,7 @@ export class Project {
       params.candidates,
       params.selectedWorkshopId,
       params.summary,
+      params.locale,
       params.createdAt
     );
   }

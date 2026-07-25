@@ -1,6 +1,8 @@
 "use client";
 
+import { useLocale } from "next-intl";
 import { useEffect, useState } from "react";
+import type { Locale } from "@/constants/i18n/locale";
 import { ApiError } from "@/features/common/utils/api-client";
 import { useProjectStore } from "@/features/project/store/project-store";
 import { recommendWorkshops } from "@/features/workshop/api/recommendWorkshops";
@@ -11,12 +13,14 @@ interface RecommendationsState {
 }
 
 /**
- * 工房候補を取得する。優先条件が変わるたびに取り直し、順位が入れ替わるのを見せる。
+ * 工房候補を取得する。優先条件や表示言語が変わるたびに取り直す。
  * スコアはサーバー側の計算なので、クライアントでは並べ替えない。
  */
 export const useWorkshopRecommendations = (
-  enabled: boolean
+  enabled: boolean,
+  fallbackErrorMessage: string
 ): RecommendationsState => {
+  const locale = useLocale() as Locale;
   const priority = useProjectStore((state) => state.priority);
   const selectedDesignId = useProjectStore((state) => state.selectedDesignId);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,6 +41,7 @@ export const useWorkshopRecommendations = (
       setErrorMessage(null);
       try {
         const { candidates } = await recommendWorkshops({
+          locale,
           analysis: store.analysis,
           design,
           tastes: store.tastes,
@@ -47,9 +52,7 @@ export const useWorkshopRecommendations = (
       } catch (error) {
         if (!cancelled) {
           setErrorMessage(
-            error instanceof ApiError
-              ? error.message
-              : "工房候補の取得に失敗しました。"
+            error instanceof ApiError ? error.message : fallbackErrorMessage
           );
         }
       } finally {
@@ -61,7 +64,7 @@ export const useWorkshopRecommendations = (
     return () => {
       cancelled = true;
     };
-  }, [enabled, priority, selectedDesignId]);
+  }, [enabled, fallbackErrorMessage, locale, priority, selectedDesignId]);
 
   return { isLoading, errorMessage };
 };

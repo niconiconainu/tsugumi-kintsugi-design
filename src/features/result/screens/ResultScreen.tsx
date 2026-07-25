@@ -1,11 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import {
-  DESIGN_COMPLEXITY_LABEL,
-  LINE_STYLE_LABEL,
-  METAL_COLOR_LABEL,
-} from "@/constants/design/taste";
+import { useLocale, useTranslations } from "next-intl";
 import { AnalysisSummary } from "@/features/analysis/components/AnalysisSummary";
 import { FlowHeader } from "@/features/common/components/layout/FlowHeader";
 import { FlowSteps } from "@/features/common/components/layout/FlowSteps";
@@ -13,22 +8,35 @@ import { Button } from "@/features/common/components/ui/Button";
 import { Callout } from "@/features/common/components/ui/Callout";
 import { Chip } from "@/features/common/components/ui/Chip";
 import { SectionLabel } from "@/features/common/components/ui/SectionLabel";
-import { formatDays, formatYen } from "@/features/common/utils/format";
+import { formatMoney } from "@/features/common/utils/format";
 import { KintsugiPreview } from "@/features/design/components/KintsugiPreview";
 import { useProjectStore } from "@/features/project/store/project-store";
 import { ShareButton } from "@/features/result/components/ShareButton";
 import { useResultView } from "@/features/result/hooks/useResultView";
 import { EstimateBreakdown } from "@/features/workshop/components/EstimateBreakdown";
+import { useRouter } from "@/i18n/navigation";
 
 export const ResultScreen = (): React.JSX.Element => {
   const router = useRouter();
+  const locale = useLocale();
+  const t = useTranslations("result");
+  const tUnits = useTranslations("units");
+  const tMetal = useTranslations("metalColor");
+  const tLine = useTranslations("lineStyle");
+  const tComplexity = useTranslations("complexity");
+  const tPrefecture = useTranslations("prefecture");
+  const tDesign = useTranslations("design");
+  const tRegion = useTranslations("region");
   const reset = useProjectStore((state) => state.reset);
-  const { view, isLoading, errorMessage } = useResultView(true);
+  const { view, isLoading, errorMessage } = useResultView(
+    true,
+    t("shareLoadError")
+  );
 
   if (isLoading) {
     return (
       <p className="text-ink-soft mx-auto max-w-3xl px-6 py-24 text-[15px]">
-        読み込んでいます…
+        {t("loading")}
       </p>
     );
   }
@@ -36,11 +44,8 @@ export const ResultScreen = (): React.JSX.Element => {
   if (errorMessage || !view) {
     return (
       <div className="mx-auto max-w-3xl space-y-6 px-6 py-24 text-center">
-        <p className="text-alert text-[15px]">
-          {errorMessage ??
-            "表示できる結果がありません。最初からやり直してください。"}
-        </p>
-        <Button onClick={() => router.push("/")}>最初から始める</Button>
+        <p className="text-alert text-[15px]">{errorMessage ?? t("notFound")}</p>
+        <Button onClick={() => router.push("/")}>{t("startOver")}</Button>
       </div>
     );
   }
@@ -61,11 +66,7 @@ export const ResultScreen = (): React.JSX.Element => {
       {/* 完成イメージ */}
       <section className="bg-night mt-12 py-20">
         <div className="mx-auto max-w-6xl px-6">
-          <FlowHeader
-            tone="night"
-            label="Step 5 · Your project"
-            title="この形で、工房へ相談できます。"
-          />
+          <FlowHeader tone="night" label={t("label")} title={t("title")} />
 
           <div className="animate-rise mt-14 grid gap-12 lg:grid-cols-[minmax(0,400px)_1fr] lg:items-center">
             <div className="border-night-line overflow-hidden rounded-lg border">
@@ -89,14 +90,12 @@ export const ResultScreen = (): React.JSX.Element => {
               </p>
 
               <div className="flex flex-wrap gap-1.5">
+                <Chip tone="night">{tMetal(design.metalColor)}</Chip>
+                <Chip tone="night">{tLine(design.lineStyle)}</Chip>
+                <Chip tone="night">{tComplexity(design.complexity)}</Chip>
                 <Chip tone="night">
-                  {METAL_COLOR_LABEL[design.metalColor]}
+                  {t("sentFrom", { prefecture: tPrefecture(view.prefecture) })}
                 </Chip>
-                <Chip tone="night">{LINE_STYLE_LABEL[design.lineStyle]}</Chip>
-                <Chip tone="night">
-                  {DESIGN_COMPLEXITY_LABEL[design.complexity]}
-                </Chip>
-                <Chip tone="night">発送元 {view.prefectureLabel}</Chip>
               </div>
 
               <p className="text-night-text text-[14px] leading-[1.8] opacity-80">
@@ -105,7 +104,7 @@ export const ResultScreen = (): React.JSX.Element => {
 
               {view.imageDataUrl === null && (
                 <p className="text-gold-light text-[13px]">
-                  共有リンクで表示しています。写真は保存していないため、継ぎ線のみを表示しています。
+                  {t("sharedNote")}
                 </p>
               )}
             </div>
@@ -117,9 +116,9 @@ export const ResultScreen = (): React.JSX.Element => {
       {selected && (
         <section className="py-20">
           <div className="mx-auto max-w-5xl px-6">
-            <SectionLabel>Workshop</SectionLabel>
+            <SectionLabel>{t("workshopLabel")}</SectionLabel>
             <h2 className="font-display text-ink mt-3 mb-10 text-center text-[32px] font-medium">
-              依頼先と概算
+              {t("workshopTitle")}
             </h2>
 
             <div className="border-gold bg-paper rounded-lg border p-8 shadow-[0_0_0_1px_var(--color-gold)]">
@@ -129,8 +128,9 @@ export const ResultScreen = (): React.JSX.Element => {
                     {selected.workshop.name}
                   </h3>
                   <p className="text-ink-soft mt-1 text-[13px]">
-                    {selected.workshop.prefectureLabel}（
-                    {selected.workshop.regionLabel}） · {selected.workshop.type}
+                    {tPrefecture(selected.workshop.prefecture)} (
+                    {tRegion(selected.workshop.region)}) ·{" "}
+                    {selected.workshop.type}
                   </p>
                   <p className="text-ink-muted mt-4 max-w-md text-[15px] leading-[1.75]">
                     {selected.workshop.description}
@@ -140,18 +140,18 @@ export const ResultScreen = (): React.JSX.Element => {
                 <dl className="space-y-4 text-right">
                   <div>
                     <dt className="text-ink-soft text-[12px] font-medium">
-                      総額の目安
+                      {t("estimatedTotal")}
                     </dt>
                     <dd className="font-display text-gold text-[38px] font-medium tabular-nums">
-                      {formatYen(selected.estimate.totalFee)}
+                      {formatMoney(selected.estimate.totalFee, locale)}
                     </dd>
                   </div>
                   <div>
                     <dt className="text-ink-soft text-[12px] font-medium">
-                      完成の目安
+                      {t("estimatedFinish")}
                     </dt>
                     <dd className="font-display text-ink text-[24px] font-medium tabular-nums">
-                      {formatDays(selected.estimate.totalDays)}
+                      {tUnits("days", { count: selected.estimate.totalDays })}
                     </dd>
                   </div>
                 </dl>
@@ -168,19 +168,21 @@ export const ResultScreen = (): React.JSX.Element => {
       {/* 比較した工房 */}
       <section className="bg-shell py-20">
         <div className="mx-auto max-w-5xl px-6">
-          <SectionLabel>Compared</SectionLabel>
+          <SectionLabel>{t("comparedLabel")}</SectionLabel>
           <h2 className="font-display text-ink mt-3 mb-10 text-center text-[32px] font-medium">
-            比較した工房
+            {t("comparedTitle")}
           </h2>
 
           <div className="border-line bg-paper overflow-x-auto rounded-lg border">
             <table className="w-full min-w-[560px] text-left text-[14px]">
               <thead className="border-line text-ink-soft border-b">
                 <tr>
-                  <th className="px-5 py-4 font-medium">工房</th>
-                  <th className="px-5 py-4 font-medium">総額</th>
-                  <th className="px-5 py-4 font-medium">完成目安</th>
-                  <th className="px-5 py-4 font-medium">総合スコア</th>
+                  <th className="px-5 py-4 font-medium">
+                    {t("table.workshop")}
+                  </th>
+                  <th className="px-5 py-4 font-medium">{t("table.total")}</th>
+                  <th className="px-5 py-4 font-medium">{t("table.finish")}</th>
+                  <th className="px-5 py-4 font-medium">{t("table.score")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -193,15 +195,15 @@ export const ResultScreen = (): React.JSX.Element => {
                       {candidate.workshop.name}
                       {candidate.workshop.id === view.selectedWorkshopId && (
                         <span className="bg-gold-pale text-gold-deep ml-2 rounded-full px-2 py-0.5 text-[11px] font-semibold">
-                          選択
+                          {t("table.selected")}
                         </span>
                       )}
                     </td>
                     <td className="text-ink-muted px-5 py-4 tabular-nums">
-                      {formatYen(candidate.estimate.totalFee)}
+                      {formatMoney(candidate.estimate.totalFee, locale)}
                     </td>
                     <td className="text-ink-muted px-5 py-4 tabular-nums">
-                      {formatDays(candidate.estimate.totalDays)}
+                      {tUnits("days", { count: candidate.estimate.totalDays })}
                     </td>
                     <td className="text-ink-muted px-5 py-4 tabular-nums">
                       {Math.round(candidate.score.total * 100)}
@@ -217,15 +219,15 @@ export const ResultScreen = (): React.JSX.Element => {
       {/* 読み取り結果 */}
       <section className="py-20">
         <div className="mx-auto max-w-6xl px-6">
-          <SectionLabel>Analysis</SectionLabel>
+          <SectionLabel>{tDesign("analysisLabel")}</SectionLabel>
           <h2 className="font-display text-ink mt-3 mb-10 text-center text-[32px] font-medium">
-            写真から読み取れたこと
+            {tDesign("analysisTitle")}
           </h2>
           <AnalysisSummary analysis={view.analysis} />
 
           <div className="mt-10">
-            <Callout title="ご注意" tone="caution">
-              金額・期間は概算です。修理可否、食品としての利用可否、最終的な料金と納期は、工房が現物を確認したうえで決まります。
+            <Callout title={t("cautionTitle")} tone="caution">
+              {t("cautionBody")}
             </Callout>
           </div>
 
@@ -238,7 +240,7 @@ export const ResultScreen = (): React.JSX.Element => {
                 router.push("/");
               }}
             >
-              別の器で試す
+              {t("restart")}
             </Button>
           </div>
         </div>

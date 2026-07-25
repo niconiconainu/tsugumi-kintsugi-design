@@ -1,7 +1,9 @@
+import type { DesignTaste } from "@/constants/design/taste";
+import type { Locale } from "@/constants/i18n/locale";
 import { SCORE_WEIGHTS, type MatchPriority } from "@/constants/project/priority";
 import { toRegion, type Prefecture } from "@/constants/region/prefecture";
-import type { DesignTaste } from "@/constants/design/taste";
 import type { DamageAnalysis } from "@/domain/entity/artifact/damage-analysis.entity";
+import { pickText } from "@/domain/entity/common/localized-text";
 import type { DesignOption } from "@/domain/entity/design/design-option.entity";
 import type { Estimate } from "@/domain/entity/estimate/estimate.entity";
 import { WorkshopCandidate } from "@/domain/entity/workshop/workshop-candidate.entity";
@@ -21,6 +23,8 @@ export interface MatchWorkshopsParams {
   tastes: readonly DesignTaste[];
   prefecture: Prefecture;
   priority: MatchPriority;
+  /** 説明文を書く言語 */
+  locale: Locale;
   /** 返す候補の件数（設計書 AC-04 は 3 件） */
   limit: number;
 }
@@ -32,6 +36,9 @@ interface ScoredWorkshop {
   affinity: ReturnType<typeof calcDesignAffinity>;
   distance: number;
 }
+
+/** 説明文を付ける前の候補。 */
+type RankedWorkshop = Omit<WorkshopCandidate, "explanation">;
 
 /**
  * 工房マッチング（設計書 4.1 の Workshop Matcher / 5.4 の総合スコア）。
@@ -49,7 +56,7 @@ export class WorkshopMatcherService {
       const workshops = await this.workshopRepository.findAll();
       const scored = this.scoreAll(workshops, params);
       const ranked = this.rank(scored, params.priority).slice(0, params.limit);
-      return await this.attachCopy(ranked, params.priority);
+      return await this.attachCopy(ranked, params.priority, params.locale);
     } catch (error) {
       logger.error("[WorkshopMatcherService] Failed to match workshops.", error);
       throw error;
@@ -83,7 +90,7 @@ export class WorkshopMatcherService {
   private rank(
     scored: ScoredWorkshop[],
     priority: MatchPriority
-  ): Omit<WorkshopCandidate, "explanation">[] {
+  ): RankedWorkshop[] {
     const weights = SCORE_WEIGHTS[priority];
     const fees = scored.map((item) => item.estimate.totalFee);
     const days = scored.map((item) => item.estimate.totalDays);
@@ -116,22 +123,24 @@ export class WorkshopMatcherService {
 
   /** Copy Agent の説明文を付ける。失敗しても比較表は出せるよう、空文字で続行する。 */
   private async attachCopy(
-    ranked: Omit<WorkshopCandidate, "explanation">[],
-    priority: MatchPriority
+    ranked: RankedWorkshop[],
+    priority: MatchPriority,
+    locale: Locale
   ): Promise<WorkshopCandidate[]> {
     return Promise.all(
       ranked.map(async (item, index) => {
         let explanation = "";
         try {
           explanation = await this.gmiCopyGateway.writeCandidateCopy({
-            workshopName: item.workshop.name,
-            workshopType: item.workshop.type,
+            workshopName: pickText(item.workshop.name, locale),
+            workshopType: pickText(item.workshop.type, locale),
             rank: index + 1,
             priority,
             totalFee: item.estimate.totalFee,
             totalDays: item.estimate.totalDays,
             matchReasons: item.matchReasons,
             cautions: item.cautions,
+            locale,
           });
         } catch (error) {
           logger.warn(

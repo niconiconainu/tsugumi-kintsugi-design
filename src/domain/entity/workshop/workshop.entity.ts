@@ -6,20 +6,22 @@ import type {
 } from "@/constants/design/taste";
 import type { Prefecture } from "@/constants/region/prefecture";
 import type { Region } from "@/constants/region/region";
+import type { LocalizedText } from "@/domain/entity/common/localized-text";
 
 /**
  * 工房プロフィール（設計書 5.1 の Mock データ）。
  * 架空の工房であり、実在の事業者ではない。
+ * 名称・看板・紹介文は翻訳ではなく言語ごとの原稿なので `LocalizedText` で持つ。
  */
 export class Workshop {
   constructor(
     readonly id: string,
-    readonly name: string,
+    readonly name: LocalizedText,
     readonly prefecture: Prefecture,
     readonly region: Region,
     /** 「伝統金継ぎ」「意匠性の高い金継ぎ」など、工房の看板 */
-    readonly type: string,
-    readonly description: string,
+    readonly type: LocalizedText,
+    readonly description: LocalizedText,
     /** 基本料金（円） */
     readonly basePrice: number,
     /** 標準的な修理日数 */

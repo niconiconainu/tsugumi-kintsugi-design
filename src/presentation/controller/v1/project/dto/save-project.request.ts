@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { DESIGN_TASTES } from "@/constants/design/taste";
+import { LOCALES } from "@/constants/i18n/locale";
 import { MATCH_PRIORITIES } from "@/constants/project/priority";
 import { PREFECTURES } from "@/constants/region/prefecture";
 import { damageAnalysisSchema } from "@/presentation/dto/common/damage-analysis.schema";
@@ -7,6 +8,8 @@ import { designOptionSchema } from "@/presentation/dto/common/design-option.sche
 
 export const saveProjectSchema = z
   .object({
+    /** 生成される文章の言語 */
+    locale: z.enum(LOCALES),
     story: z.string().max(2000).default(""),
     tastes: z.array(z.enum(DESIGN_TASTES)).max(4).default([]),
     prefecture: z.enum(PREFECTURES),
