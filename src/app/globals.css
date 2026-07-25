@@ -1,26 +1,113 @@
 @import "tailwindcss";
+@import "./fonts.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * デザイントークンは docs/design/ の「Tsugumi Design Flow」から取り込んだもの。
+ * 値は原本と同じ oklch のまま持つ（近似の hex に置き換えない）。
+ */
+@theme {
+  /* 地色 */
+  --color-cream: oklch(96% 0.014 75); /* ページ背景 */
+  --color-paper: oklch(99% 0.006 75); /* カード・パネル */
+  --color-shell: oklch(97% 0.01 75); /* 一段沈めたセクション */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* 藍墨（文字・主ボタン） */
+  --color-ink: oklch(20% 0.02 258);
+  --color-ink-strong: oklch(24% 0.045 258);
+  --color-ink-muted: oklch(42% 0.02 258);
+  --color-ink-soft: oklch(50% 0.02 258);
+  --color-ink-faint: oklch(60% 0.02 258);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* 金 */
+  --color-gold: oklch(58% 0.11 80); /* 主役の金 */
+  --color-gold-light: oklch(74% 0.125 85); /* 濃地の上の金 */
+  --color-gold-pale: oklch(94% 0.03 85); /* 金の淡い面 */
+  --color-gold-tint: oklch(90% 0.03 85);
+  --color-gold-deep: oklch(45% 0.09 85);
+
+  /* 罫線 */
+  --color-line: oklch(88% 0.02 85);
+  --color-line-warm: oklch(84% 0.03 85);
+  --color-line-cool: oklch(80% 0.02 258);
+
+  /* 濃地セクション（Reveal 画面） */
+  --color-night: oklch(20% 0.03 258);
+  --color-night-soft: oklch(30% 0.03 258);
+  --color-night-line: oklch(38% 0.03 258);
+  --color-night-text: oklch(82% 0.01 75);
+
+  /* 注意喚起 */
+  --color-alert: oklch(48% 0.08 35);
+  --color-alert-bg: oklch(92% 0.03 40);
+
+  --font-display: "Cormorant Garamond", "Hiragino Mincho ProN", "Yu Mincho",
+    serif;
+  --font-sans: "Work Sans", "Hiragino Sans", "Noto Sans JP", "Yu Gothic",
+    sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 写真のプレースホルダ（原本の repeating-linear-gradient をそのまま使う）。 */
+.bg-hatch {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--color-gold-tint),
+    var(--color-gold-tint) 10px,
+    var(--color-gold-pale) 10px,
+    var(--color-gold-pale) 20px
+  );
+}
+
+.bg-hatch-night {
+  background: repeating-linear-gradient(
+    135deg,
+    oklch(30% 0.04 85),
+    oklch(30% 0.04 85) 10px,
+    oklch(36% 0.05 85) 10px,
+    oklch(36% 0.05 85) 20px
+  );
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-rise {
+  animation: rise-in 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+/* 継ぎ線が引かれていく演出。stroke-dasharray は下で固定値を置く。 */
+@keyframes kintsugi-draw {
+  from {
+    stroke-dashoffset: 200;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-draw {
+  stroke-dasharray: 200;
+  animation: kintsugi-draw 1.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-draw {
+    animation: none;
+    stroke-dasharray: none;
+  }
 }
