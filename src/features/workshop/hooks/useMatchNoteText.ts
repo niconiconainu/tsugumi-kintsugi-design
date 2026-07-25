@@ -18,17 +18,12 @@ interface MatchNoteText {
 export const useMatchNoteText = (): MatchNoteText => {
   const tReason = useTranslations("matchReason");
   const tCaution = useTranslations("matchCaution");
-  const tTaste = useTranslations("taste");
   const tMaterial = useTranslations("material");
   const tMetal = useTranslations("metalColor");
   const tComplexity = useTranslations("complexity");
 
   const reason = (item: MatchReason): string => {
     switch (item.code) {
-      case "tasteMatch":
-        return tReason("tasteMatch", {
-          tastes: item.tastes.map((taste) => tTaste(taste)).join(" / "),
-        });
       case "materialExperience":
         return tReason("materialExperience", {
           material: tMaterial(item.material),

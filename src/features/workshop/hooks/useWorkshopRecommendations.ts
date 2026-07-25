@@ -44,7 +44,6 @@ export const useWorkshopRecommendations = (
           locale,
           analysis: store.analysis,
           design,
-          tastes: store.tastes,
           prefecture: store.prefecture,
           priority,
         });

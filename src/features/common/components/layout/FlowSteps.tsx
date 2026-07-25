@@ -10,7 +10,6 @@ import { usePathname } from "@/i18n/navigation";
  */
 const STEPS = [
   { key: "photo", paths: ["/"] },
-  { key: "story", paths: ["/story"] },
   { key: "design", paths: ["/analyzing", "/designs"] },
   { key: "workshop", paths: ["/workshops"] },
   { key: "result", paths: ["/result"] },

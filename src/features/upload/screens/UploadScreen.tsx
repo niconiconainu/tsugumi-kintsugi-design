@@ -22,6 +22,8 @@ export const UploadScreen = (): React.JSX.Element => {
   const material = useProjectStore((state) => state.material);
   const setPhoto = useProjectStore((state) => state.setPhoto);
   const setArtifact = useProjectStore((state) => state.setArtifact);
+  const prefecture = useProjectStore((state) => state.prefecture);
+  const setPrefecture = useProjectStore((state) => state.setPrefecture);
 
   return (
     <>
@@ -125,13 +127,15 @@ export const UploadScreen = (): React.JSX.Element => {
             artifactType={artifactType}
             material={material}
             onChange={setArtifact}
+            prefecture={prefecture}
+            onPrefectureChange={setPrefecture}
           />
 
           <div className="mt-10 flex justify-center">
             <Button
               size="lg"
-              onClick={() => router.push("/story")}
-              disabled={!imageDataUrl}
+              onClick={() => router.push("/analyzing")}
+              disabled={!imageDataUrl || !prefecture}
             >
               {t("upload.cta")}
             </Button>

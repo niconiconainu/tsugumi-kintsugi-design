@@ -54,8 +54,6 @@ export const WorkshopScreen = (): React.JSX.Element | null => {
     try {
       const project = await saveProject({
         locale,
-        story: store.story,
-        tastes: store.tastes,
         prefecture: store.prefecture,
         priority: store.priority,
         analysis: store.analysis,

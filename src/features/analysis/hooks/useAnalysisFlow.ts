@@ -2,7 +2,7 @@
 
 import { useLocale } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { DamageType, Material } from "@/constants/artifact/damage";
+import type { DamageType } from "@/constants/artifact/damage";
 import type { Locale } from "@/constants/i18n/locale";
 import { analyzeImage } from "@/features/analysis/api/analyzeImage";
 import { ApiError } from "@/features/common/utils/api-client";
@@ -26,7 +26,6 @@ const wait = (ms: number): Promise<void> =>
 
 export interface AnalysisFallbackHints {
   damageType: DamageType;
-  material: Material;
 }
 
 interface AnalysisFlowState {
@@ -65,8 +64,9 @@ export const useAnalysisFlow = (
         const { analysis } = await analyzeImage({
           locale,
           imageDataUrl: store.imageDataUrl,
+          declaredArtifactType: store.artifactType,
+          declaredMaterial: store.material,
           declaredDamageType: hints?.damageType,
-          declaredMaterial: hints?.material,
         });
         useProjectStore.getState().setAnalysis(analysis);
 
@@ -74,12 +74,7 @@ export const useAnalysisFlow = (
         await wait(STAGE_INTERVAL_MS);
         setStageIndex(2);
 
-        const { designs } = await generateDesigns({
-          locale,
-          story: store.story,
-          tastes: store.tastes,
-          analysis,
-        });
+        const { designs } = await generateDesigns({ locale, analysis });
         useProjectStore.getState().setDesigns(designs);
 
         setStageIndex(3);

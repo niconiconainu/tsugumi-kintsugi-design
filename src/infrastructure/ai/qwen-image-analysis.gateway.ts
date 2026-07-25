@@ -53,7 +53,7 @@ export class QwenImageAnalysisGateway {
     return buildMockAnalysis({
       imageDigest: String(hashString(params.imageDataUrl)),
       locale: params.locale,
-      hints: params.hints,
+      declared: params.declared,
       source: "fallback",
     });
   }
@@ -74,7 +74,7 @@ export class QwenImageAnalysisGateway {
     return buildMockAnalysis({
       imageDigest,
       locale: params.locale,
-      hints: params.hints,
+      declared: params.declared,
       source: "vision_model",
     });
   }
