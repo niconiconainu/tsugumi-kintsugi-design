@@ -8,6 +8,7 @@ import { analyzeImage } from "@/features/analysis/api/analyzeImage";
 import { ApiError } from "@/features/common/utils/api-client";
 import { generateDesigns } from "@/features/design/api/generateDesigns";
 import { useProjectStore } from "@/features/project/store/project-store";
+import { restoreImage } from "@/features/restoration/api/restoreImage";
 import { useRouter } from "@/i18n/navigation";
 
 /** 進行状況の段階表示（設計書 8「解析中は段階表示する」）。 */
@@ -73,6 +74,16 @@ export const useAnalysisFlow = (
         setStageIndex(1);
         await wait(STAGE_INTERVAL_MS);
         setStageIndex(2);
+
+        // 画像生成が落ちても相談の流れは続けられるので、ここでは止めない。
+        const { restoredImageUrl } = await restoreImage({
+          imageDataUrl: store.imageDataUrl,
+          artifactType: store.artifactType,
+          material: store.material,
+          metalColor: "gold",
+          brief: analysis.brief,
+        }).catch(() => ({ restoredImageUrl: null }));
+        useProjectStore.getState().setRestoredImage(restoredImageUrl);
 
         const { designs } = await generateDesigns({ locale, analysis });
         useProjectStore.getState().setDesigns(designs);

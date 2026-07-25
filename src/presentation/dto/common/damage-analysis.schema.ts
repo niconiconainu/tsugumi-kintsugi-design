@@ -23,6 +23,11 @@ export const damageAnalysisSchema = z.object({
   repairNotes: z.array(z.string()),
   confidence: z.number().min(0).max(1),
   source: z.enum(["vision_model", "fallback"]),
+  brief: z.object({
+    damageDescription: z.string(),
+    designDescription: z.string(),
+    framing: z.string(),
+  }),
 });
 
 export type DamageAnalysisPayload = z.infer<typeof damageAnalysisSchema>;
@@ -46,5 +51,10 @@ export const toDamageAnalysisResponse = (
   repairNotes: analysis.repairNotes,
   confidence: analysis.confidence,
   source: analysis.source,
+  brief: {
+    damageDescription: analysis.brief.damageDescription,
+    designDescription: analysis.brief.designDescription,
+    framing: analysis.brief.framing,
+  },
   needsUserConfirmation: analysis.needsUserConfirmation,
 });

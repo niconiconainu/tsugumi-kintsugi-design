@@ -1,4 +1,5 @@
 import type { ArtifactType } from "@/constants/artifact/artifact-type";
+import type { RestorationBrief } from "@/domain/entity/artifact/restoration-brief";
 import type {
   DamageSeverity,
   DamageType,
@@ -25,7 +26,9 @@ export class DamageAnalysis {
     readonly visualMotifs: string[],
     readonly repairNotes: string[],
     readonly confidence: number,
-    readonly source: AnalysisSource
+    readonly source: AnalysisSource,
+    /** 復元画像を作るための特徴。Vision が読み取る。 */
+    readonly brief: RestorationBrief
   ) {}
 
   /** 解析結果の信頼度が低く、ユーザーへ確認を促すべきか。 */

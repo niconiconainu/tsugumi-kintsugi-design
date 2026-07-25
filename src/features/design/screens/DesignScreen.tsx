@@ -20,6 +20,7 @@ export const DesignScreen = (): React.JSX.Element | null => {
   const designs = useProjectStore((state) => state.designs);
   const selectedDesignId = useProjectStore((state) => state.selectedDesignId);
   const selectDesign = useProjectStore((state) => state.selectDesign);
+  const restoredImageUrl = useProjectStore((state) => state.restoredImageUrl);
   const isReady = useFlowGuard(
     Boolean(analysis && designs.length > 0),
     "/analyzing"
@@ -63,6 +64,17 @@ export const DesignScreen = (): React.JSX.Element | null => {
               <p className="text-gold-light mb-3 text-center text-[12px] font-medium tracking-[0.08em] uppercase lg:text-left">
                 {t("after")}
               </p>
+              {restoredImageUrl && (
+                <div className="border-gold/40 mb-6 overflow-hidden rounded-lg border">
+                  {/* 生成画像は外部 URL なので next/image の最適化は通さない。 */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={restoredImageUrl}
+                    alt={t("after")}
+                    className="w-full object-contain"
+                  />
+                </div>
+              )}
               <div className="grid gap-5 md:grid-cols-3">
                 {designs.map((design) => (
                   <DesignCard
