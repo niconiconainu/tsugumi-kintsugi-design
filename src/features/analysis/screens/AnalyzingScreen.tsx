@@ -20,7 +20,7 @@ export const AnalyzingScreen = (): React.JSX.Element | null => {
   const prefecture = useProjectStore((state) => state.prefecture);
   const isReady = useFlowGuard(
     Boolean(imageDataUrl && prefecture),
-    imageDataUrl ? "/story" : "/"
+    imageDataUrl ? "/analyzing" : "/"
   );
   const { stageIndex, errorMessage, needsFallbackInput, retry } =
     useAnalysisFlow(isReady, t("networkError"));
@@ -91,7 +91,7 @@ export const AnalyzingScreen = (): React.JSX.Element | null => {
             ) : (
               <div className="flex justify-center gap-3">
                 <Button onClick={() => retry()}>{t("retry")}</Button>
-                <Button variant="outline" onClick={() => router.push("/story")}>
+                <Button variant="outline" onClick={() => router.push("/")}>
                   {t("backToStory")}
                 </Button>
               </div>

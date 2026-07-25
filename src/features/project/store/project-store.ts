@@ -4,7 +4,6 @@ import { create } from "zustand";
 import { createJSONStorage, persist, type StateStorage } from "zustand/middleware";
 import type { Material } from "@/constants/artifact/damage";
 import type { ArtifactType } from "@/constants/artifact/artifact-type";
-import type { DesignTaste } from "@/constants/design/expression";
 import type { MatchPriority } from "@/constants/project/priority";
 import type { Prefecture } from "@/constants/region/prefecture";
 import type { DamageAnalysisResponse } from "@/presentation/dto/common/damage-analysis.schema";
@@ -17,8 +16,6 @@ interface ProjectState {
   artifactType: ArtifactType;
   /** 同じくユーザー申告の素材。 */
   material: Material;
-  story: string;
-  tastes: DesignTaste[];
   prefecture: Prefecture | null;
   priority: MatchPriority;
   analysis: DamageAnalysisResponse | null;
@@ -36,12 +33,7 @@ interface ProjectActions {
     artifactType: ArtifactType;
     material: Material;
   }) => void;
-  setPreference: (params: {
-    story: string;
-    tastes: DesignTaste[];
-    prefecture: Prefecture;
-    priority: MatchPriority;
-  }) => void;
+  setPrefecture: (prefecture: Prefecture) => void;
   setAnalysis: (analysis: DamageAnalysisResponse) => void;
   setDesigns: (designs: DesignOptionResponse[]) => void;
   selectDesign: (designId: string) => void;
@@ -56,8 +48,6 @@ const INITIAL_STATE: ProjectState = {
   imageDataUrl: null,
   artifactType: "rice_bowl",
   material: "ceramic",
-  story: "",
-  tastes: [],
   prefecture: null,
   priority: "design",
   analysis: null,
@@ -97,8 +87,7 @@ export const useProjectStore = create<ProjectState & ProjectActions>()(
         set({ ...INITIAL_STATE, imageDataUrl }),
       setArtifact: ({ artifactType, material }) =>
         set({ artifactType, material }),
-      setPreference: ({ story, tastes, prefecture, priority }) =>
-        set({ story, tastes, prefecture, priority }),
+      setPrefecture: (prefecture) => set({ prefecture }),
       setAnalysis: (analysis) => set({ analysis }),
       setDesigns: (designs) =>
         set({ designs, selectedDesignId: designs[0]?.id ?? null }),

@@ -6,6 +6,7 @@ import {
   type ArtifactType,
 } from "@/constants/artifact/artifact-type";
 import { MATERIALS, type Material } from "@/constants/artifact/damage";
+import { PREFECTURES, type Prefecture } from "@/constants/region/prefecture";
 
 interface ArtifactSelectorProps {
   artifactType: ArtifactType;
@@ -14,6 +15,8 @@ interface ArtifactSelectorProps {
     artifactType: ArtifactType;
     material: Material;
   }) => void;
+  prefecture: Prefecture | null;
+  onPrefectureChange: (prefecture: Prefecture) => void;
 }
 
 const FIELD_CLASS =
@@ -28,10 +31,14 @@ export const ArtifactSelector = ({
   artifactType,
   material,
   onChange,
+  prefecture,
+  onPrefectureChange,
 }: ArtifactSelectorProps): React.JSX.Element => {
   const t = useTranslations("landing.upload");
   const tArtifact = useTranslations("artifactType");
   const tMaterial = useTranslations("material");
+  const tPrefecture = useTranslations("prefecture");
+  const tStory = useTranslations("story");
 
   return (
     <div className="mx-auto mt-10 grid max-w-[760px] gap-6 sm:grid-cols-2">
@@ -79,6 +86,29 @@ export const ArtifactSelector = ({
         </select>
         <span className="text-ink-soft mt-1.5 block text-[13px]">
           {t("materialHint")}
+        </span>
+      </label>
+
+      <label className="block sm:col-span-2">
+        <span className="text-ink text-[15px] font-semibold">
+          {tStory("prefectureLabel")}
+        </span>
+        <select
+          value={prefecture ?? ""}
+          onChange={(event) =>
+            onPrefectureChange(event.target.value as Prefecture)
+          }
+          className={FIELD_CLASS}
+        >
+          <option value="">{tStory("prefecturePlaceholder")}</option>
+          {PREFECTURES.map((code) => (
+            <option key={code} value={code}>
+              {tPrefecture(code)}
+            </option>
+          ))}
+        </select>
+        <span className="text-ink-soft mt-1.5 block text-[13px]">
+          {tStory("prefectureNote")}
         </span>
       </label>
     </div>

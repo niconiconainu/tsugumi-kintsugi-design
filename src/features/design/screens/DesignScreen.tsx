@@ -87,7 +87,7 @@ export const DesignScreen = (): React.JSX.Element | null => {
             </Button>
             <button
               type="button"
-              onClick={() => router.push("/story")}
+              onClick={() => router.push("/")}
               className="text-night-text hover:text-cream text-[15px] font-medium underline underline-offset-4"
             >
               {t("back")}
