@@ -4,7 +4,7 @@ import {
   MISSING_AREA_SURCHARGE,
   MISSING_AREA_THRESHOLD,
 } from "@/constants/artifact/damage";
-import { DESIGN_COMPLEXITY_SURCHARGE } from "@/constants/design/taste";
+import { DESIGN_COMPLEXITY_SURCHARGE } from "@/constants/design/expression";
 import {
   PACKAGING_FEE,
   SHIPPING_RATE_TABLE,

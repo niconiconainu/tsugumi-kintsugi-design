@@ -1,5 +1,4 @@
 import type { ProjectResult } from "@/application/dto/project/project.result";
-import type { DesignTaste } from "@/constants/design/taste";
 import type { Locale } from "@/constants/i18n/locale";
 import type { MatchPriority } from "@/constants/project/priority";
 import type { ProjectStatus } from "@/constants/project/project-status";
@@ -25,8 +24,6 @@ export interface ProjectResponse {
   locale: Locale;
   summary: string;
   preference: {
-    story: string;
-    tastes: DesignTaste[];
     prefecture: Prefecture;
     priority: MatchPriority;
   };
@@ -47,8 +44,6 @@ export const toProjectResponse = (result: ProjectResult): ProjectResponse => {
     locale,
     summary: project.summary,
     preference: {
-      story: project.preference.story,
-      tastes: project.preference.tastes,
       prefecture: project.preference.prefecture,
       priority: project.preference.priority,
     },

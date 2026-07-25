@@ -13,15 +13,12 @@ export class DesignUseCase {
     try {
       const analysis = toDamageAnalysis(input.analysis);
       const designs = await this.designService.generate({
-        story: input.story,
-        tastes: input.tastes,
         analysis,
         locale: input.locale,
         // 同じ入力なら同じ 3 案・同じ継ぎ線になるよう、入力から seed を作る。
         seed: [
-          input.story,
-          input.tastes.join("|"),
           analysis.objectType,
+          analysis.material,
           analysis.damageType,
           analysis.crackCount,
         ].join(":"),

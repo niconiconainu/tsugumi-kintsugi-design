@@ -2,7 +2,7 @@ import type {
   DesignComplexity,
   LineStyle,
   MetalColor,
-} from "@/constants/design/taste";
+} from "@/constants/design/expression";
 
 /** デザイン案の出所。GMI 失敗時は事前定義テンプレート（設計書 6.3）。 */
 export type DesignSource = "llm" | "template";

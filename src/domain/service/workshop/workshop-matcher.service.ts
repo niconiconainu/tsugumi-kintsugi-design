@@ -1,4 +1,3 @@
-import type { DesignTaste } from "@/constants/design/taste";
 import type { Locale } from "@/constants/i18n/locale";
 import { SCORE_WEIGHTS, type MatchPriority } from "@/constants/project/priority";
 import { toRegion, type Prefecture } from "@/constants/region/prefecture";
@@ -20,7 +19,6 @@ import { logger } from "@/utils/logger";
 export interface MatchWorkshopsParams {
   analysis: DamageAnalysis;
   design: DesignOption;
-  tastes: readonly DesignTaste[];
   prefecture: Prefecture;
   priority: MatchPriority;
   /** 説明文を書く言語 */
@@ -80,7 +78,6 @@ export class WorkshopMatcherService {
         workshop,
         design: params.design,
         analysis: params.analysis,
-        tastes: params.tastes,
       }),
       distance: this.logisticsService.proximityScore(from, workshop.region),
     }));

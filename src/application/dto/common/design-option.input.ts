@@ -2,7 +2,7 @@ import type {
   DesignComplexity,
   LineStyle,
   MetalColor,
-} from "@/constants/design/taste";
+} from "@/constants/design/expression";
 import {
   DesignOption,
   type DesignSource,

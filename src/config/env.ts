@@ -10,6 +10,7 @@ export const env: Env = envSchema.parse({
   QWEN_API_KEY: process.env.QWEN_API_KEY,
   QWEN_BASE_URL: process.env.QWEN_BASE_URL,
   QWEN_VISION_MODEL: process.env.QWEN_VISION_MODEL,
+  QWEN_IMAGE_EDIT_MODEL: process.env.QWEN_IMAGE_EDIT_MODEL,
   GMI_API_KEY: process.env.GMI_API_KEY,
   GMI_BASE_URL: process.env.GMI_BASE_URL,
   GMI_DESIGN_MODEL: process.env.GMI_DESIGN_MODEL,

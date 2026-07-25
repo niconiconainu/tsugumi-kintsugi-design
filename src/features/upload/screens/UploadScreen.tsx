@@ -5,6 +5,7 @@ import { Button } from "@/features/common/components/ui/Button";
 import { SectionLabel } from "@/features/common/components/ui/SectionLabel";
 import { useProjectStore } from "@/features/project/store/project-store";
 import { PhotoDropzone } from "@/features/upload/components/PhotoDropzone";
+import { ArtifactSelector } from "@/features/upload/components/ArtifactSelector";
 import { useRouter } from "@/i18n/navigation";
 
 const HOW_STEPS = [
@@ -17,7 +18,10 @@ export const UploadScreen = (): React.JSX.Element => {
   const router = useRouter();
   const t = useTranslations("landing");
   const imageDataUrl = useProjectStore((state) => state.imageDataUrl);
+  const artifactType = useProjectStore((state) => state.artifactType);
+  const material = useProjectStore((state) => state.material);
   const setPhoto = useProjectStore((state) => state.setPhoto);
+  const setArtifact = useProjectStore((state) => state.setArtifact);
 
   return (
     <>
@@ -116,6 +120,12 @@ export const UploadScreen = (): React.JSX.Element => {
           </p>
 
           <PhotoDropzone imageDataUrl={imageDataUrl} onSelect={setPhoto} />
+
+          <ArtifactSelector
+            artifactType={artifactType}
+            material={material}
+            onChange={setArtifact}
+          />
 
           <div className="mt-10 flex justify-center">
             <Button

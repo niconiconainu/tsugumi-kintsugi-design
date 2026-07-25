@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ARTIFACT_TYPES } from "@/constants/artifact/artifact-type";
 import {
   DAMAGE_SEVERITIES,
   DAMAGE_TYPES,
@@ -11,7 +12,7 @@ import type { DamageAnalysis } from "@/domain/entity/artifact/damage-analysis.en
  * `/api/designs` `/api/recommendations` `/api/estimate` が共通で受け取る。
  */
 export const damageAnalysisSchema = z.object({
-  objectType: z.string().min(1),
+  objectType: z.enum(ARTIFACT_TYPES),
   material: z.enum(MATERIALS),
   dominantColors: z.array(z.string()),
   damageType: z.enum(DAMAGE_TYPES),

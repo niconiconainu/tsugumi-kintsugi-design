@@ -1,15 +1,3 @@
-/** 希望テイスト（設計書 2.1）。デザイン案の方向づけと工房の相性判定に使う。 */
-export const DESIGN_TASTES = [
-  "traditional",
-  "minimal",
-  "bold",
-  "botanical",
-] as const;
-
-export type DesignTaste = (typeof DESIGN_TASTES)[number];
-
-
-
 /** 金属表現。本漆金継ぎ以外の選択肢も明示する（設計書 8「文化的配慮」）。 */
 export const METAL_COLORS = ["gold", "silver", "red_gold"] as const;
 

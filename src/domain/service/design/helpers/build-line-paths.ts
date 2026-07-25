@@ -1,4 +1,4 @@
-import type { LineStyle } from "@/constants/design/taste";
+import type { LineStyle } from "@/constants/design/expression";
 import { createRandomFromString, type RandomFn } from "@/utils/seeded-random";
 
 /**

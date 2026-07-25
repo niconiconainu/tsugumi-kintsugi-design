@@ -10,7 +10,7 @@ export class DesignController {
 
   /**
    * POST /api/designs
-   * 解析結果とストーリーから金継ぎデザイン案を 3 件生成する
+   * 解析結果（器の種類・素材・破損状態）から金継ぎデザイン案を 3 件生成する
    */
   async generate(request: Request): Promise<DesignsResponse> {
     const body = generateDesignsSchema.parse(await request.json());

@@ -1,10 +1,10 @@
 import type { Material } from "@/constants/artifact/damage";
 import type {
   DesignComplexity,
-  DesignTaste,
   MetalColor,
-} from "@/constants/design/taste";
+} from "@/constants/design/expression";
 import { toRegion, type Prefecture } from "@/constants/region/prefecture";
+import type { WorkshopStyle } from "@/constants/workshop/style";
 import type { LocalizedText } from "@/domain/entity/common/localized-text";
 import { Workshop } from "@/domain/entity/workshop/workshop.entity";
 
@@ -38,7 +38,7 @@ export const toDomain = (record: WorkshopRecord): Workshop => {
     record.basePrice,
     record.repairDays,
     record.queueDays,
-    record.styleTags as DesignTaste[],
+    record.styleTags as WorkshopStyle[],
     record.materialSkills as Material[],
     record.metalColors as MetalColor[],
     record.maxComplexity as DesignComplexity,

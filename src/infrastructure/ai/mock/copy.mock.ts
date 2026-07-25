@@ -1,3 +1,5 @@
+import type { ArtifactType } from "@/constants/artifact/artifact-type";
+import type { Material } from "@/constants/artifact/damage";
 import type { Locale } from "@/constants/i18n/locale";
 import type { MatchPriority } from "@/constants/project/priority";
 import type {
@@ -9,7 +11,7 @@ import {
   MATERIAL_WORD,
   METAL_WORD,
   PRIORITY_WORD,
-  TASTE_WORD,
+  artifactPhrase,
   money,
 } from "@/infrastructure/ai/mock/labels";
 
@@ -31,7 +33,8 @@ export interface ProjectSummaryInput {
   workshopName: string | null;
   totalFee: number | null;
   totalDays: number | null;
-  story: string;
+  objectType: ArtifactType;
+  material: Material;
   locale: Locale;
 }
 
@@ -56,12 +59,6 @@ const FALLBACK_RANK_PHRASE: Record<Locale, string> = {
 /** 事実コードを、その言語の言い回しへ開く。 */
 const renderReason = (reason: MatchReason, locale: Locale): string => {
   switch (reason.code) {
-    case "tasteMatch": {
-      const words = reason.tastes.map((taste) => TASTE_WORD[locale][taste]);
-      return locale === "ja"
-        ? `希望テイスト「${words.join("・")}」を得意としています`
-        : `they work well in the ${words.join(" and ")} direction you asked for`;
-    }
     case "materialExperience":
       return locale === "ja"
         ? `${MATERIAL_WORD.ja[reason.material]}の取り扱い実績があります`
@@ -145,28 +142,28 @@ const firstSentence = (text: string, locale: Locale): string => {
 export const buildMockProjectSummary = (input: ProjectSummaryInput): string => {
   const { locale } = input;
   const concept = firstSentence(input.designConcept, locale);
-  const hasStory = input.story.trim().length > 0;
+  const artifact = artifactPhrase({
+    objectType: input.objectType,
+    material: input.material,
+    locale,
+  });
   const hasWorkshop =
     input.workshopName !== null &&
     input.totalFee !== null &&
     input.totalDays !== null;
 
   if (locale === "ja") {
-    const storyPart = hasStory
-      ? "お話にあった記憶を線の意味づけに使いました。"
-      : "器の破損の形そのものを手がかりにしました。";
+    const artifactPart = `${artifact}の破損の形そのものを手がかりにしました。`;
     const workshopPart = hasWorkshop
       ? `依頼先には${input.workshopName}を選びました。総額の目安は${money(input.totalFee!, "ja")}、完成の目安は約${input.totalDays}日です。`
       : "依頼先はまだ選ばれていません。候補を比較して決めてください。";
     // concept の 1 文目が「〜案」で終わるので、語尾は足さずそのまま句点で閉じる。
-    return `「${input.designTitle}」は、${concept}。${storyPart}${workshopPart}`;
+    return `「${input.designTitle}」は、${concept}。${artifactPart}${workshopPart}`;
   }
 
-  const storyPart = hasStory
-    ? "What you told us about the piece shaped how the lines were read."
-    : "The shape of the break itself was the starting point.";
+  const artifactPart = `The shape of the break in your ${artifact} was the starting point.`;
   const workshopPart = hasWorkshop
     ? `You chose ${input.workshopName} to carry it out. Expect around ${money(input.totalFee!, "en")} in total, and about ${input.totalDays} days until it is finished.`
     : "No studio has been chosen yet — compare the candidates and pick one.";
-  return `“${input.designTitle}” ${concept.charAt(0).toLowerCase()}${concept.slice(1)}. ${storyPart} ${workshopPart}`;
+  return `“${input.designTitle}” ${concept.charAt(0).toLowerCase()}${concept.slice(1)}. ${artifactPart} ${workshopPart}`;
 };

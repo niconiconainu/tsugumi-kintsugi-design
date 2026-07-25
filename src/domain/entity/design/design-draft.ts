@@ -2,7 +2,7 @@ import type {
   DesignComplexity,
   LineStyle,
   MetalColor,
-} from "@/constants/design/taste";
+} from "@/constants/design/expression";
 
 /**
  * Design Agent（LLM）が生み出す創作部分だけを表す型。

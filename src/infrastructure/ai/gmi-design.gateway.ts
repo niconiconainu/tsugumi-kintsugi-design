@@ -1,5 +1,4 @@
 import { isDemoMode } from "@/config/env";
-import type { DesignTaste } from "@/constants/design/taste";
 import type { Locale } from "@/constants/i18n/locale";
 import type { DamageAnalysis } from "@/domain/entity/artifact/damage-analysis.entity";
 import type { DesignDraft } from "@/domain/entity/design/design-draft";
@@ -8,8 +7,6 @@ import { buildMockDesignDrafts } from "@/infrastructure/ai/mock/design.mock";
 import { logger } from "@/utils/logger";
 
 export interface GenerateDesignParams {
-  story: string;
-  tastes: readonly DesignTaste[];
   analysis: DamageAnalysis;
   /** 案の文章を書く言語 */
   locale: Locale;
@@ -27,7 +24,7 @@ export interface GenerateDesignResult {
  * GMI Cloud の Design Agent（創造性重視モデル）へのゲートウェイ。
  *
  * ⚠️ 現状は **MOCK 実装**。利用可能モデルと Base URL が未確定のため、
- * DEMO_MODE=true の間はテンプレート表からストーリー・テイストに合う 3 案を選んで返す。
+ * DEMO_MODE=true の間はテンプレート表から器の種類・素材に合う 3 案を選んで返す。
  * 実 API へ差し替えるときは `callDesignModel()` の中だけを書き換える。
  */
 export class GmiDesignGateway {
