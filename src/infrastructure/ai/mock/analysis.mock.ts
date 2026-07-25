@@ -6,6 +6,7 @@ import type {
 } from "@/constants/artifact/damage";
 import type { Locale } from "@/constants/i18n/locale";
 import { DamageAnalysis } from "@/domain/entity/artifact/damage-analysis.entity";
+import { RestorationBrief } from "@/domain/entity/artifact/restoration-brief";
 import {
   createRandomFromString,
   pickOne,
@@ -172,6 +173,12 @@ export const buildMockAnalysis = (params: {
     appearance.visualMotifs[params.locale],
     REPAIR_NOTE_POOL[params.locale][damageType],
     confidence,
-    params.source
+    params.source,
+    // Mock では写真を見ていないので、素材から引いた一般的な記述で埋める。
+    new RestorationBrief(
+      `visible cracks and chips on the ${artifactType.replace("_", " ")}`,
+      appearance.dominantColors.join(", "),
+      "centered on a plain background"
+    )
   );
 };

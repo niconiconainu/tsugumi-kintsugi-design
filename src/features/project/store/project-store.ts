@@ -19,6 +19,8 @@ interface ProjectState {
   prefecture: Prefecture | null;
   priority: MatchPriority;
   analysis: DamageAnalysisResponse | null;
+  /** 金継ぎ復元画像の URL。生成できなければ null。 */
+  restoredImageUrl: string | null;
   designs: DesignOptionResponse[];
   selectedDesignId: string | null;
   candidates: WorkshopCandidateResponse[];
@@ -35,6 +37,7 @@ interface ProjectActions {
   }) => void;
   setPrefecture: (prefecture: Prefecture) => void;
   setAnalysis: (analysis: DamageAnalysisResponse) => void;
+  setRestoredImage: (restoredImageUrl: string | null) => void;
   setDesigns: (designs: DesignOptionResponse[]) => void;
   selectDesign: (designId: string) => void;
   setPriority: (priority: MatchPriority) => void;
@@ -51,6 +54,7 @@ const INITIAL_STATE: ProjectState = {
   prefecture: null,
   priority: "design",
   analysis: null,
+  restoredImageUrl: null,
   designs: [],
   selectedDesignId: null,
   candidates: [],
@@ -89,6 +93,7 @@ export const useProjectStore = create<ProjectState & ProjectActions>()(
         set({ artifactType, material }),
       setPrefecture: (prefecture) => set({ prefecture }),
       setAnalysis: (analysis) => set({ analysis }),
+      setRestoredImage: (restoredImageUrl) => set({ restoredImageUrl }),
       setDesigns: (designs) =>
         set({ designs, selectedDesignId: designs[0]?.id ?? null }),
       selectDesign: (selectedDesignId) =>

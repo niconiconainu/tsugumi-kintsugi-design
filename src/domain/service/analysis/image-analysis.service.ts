@@ -1,5 +1,6 @@
 import type { DamageAnalysis } from "@/domain/entity/artifact/damage-analysis.entity";
 import type { AnalyzeImageParams } from "@/infrastructure/ai/qwen-image-analysis.gateway";
+import { ImageRejectedError } from "@/domain/entity/artifact/image-rejected.error";
 import { QwenImageAnalysisGateway } from "@/infrastructure/ai/qwen-image-analysis.gateway";
 import { logger } from "@/utils/logger";
 
@@ -16,6 +17,8 @@ export class ImageAnalysisService {
     try {
       return await this.qwenImageAnalysisGateway.analyze(params);
     } catch (error) {
+      // 「金継ぎできない写真」は失敗ではなく判定結果なので、Mock で握りつぶさない。
+      if (error instanceof ImageRejectedError) throw error;
       logger.error(
         "[ImageAnalysisService] Vision analysis failed. Falling back to user-declared damage.",
         error

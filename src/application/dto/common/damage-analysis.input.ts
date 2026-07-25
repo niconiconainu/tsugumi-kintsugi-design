@@ -4,6 +4,7 @@ import type {
   DamageType,
   Material,
 } from "@/constants/artifact/damage";
+import { RestorationBrief } from "@/domain/entity/artifact/restoration-brief";
 import {
   DamageAnalysis,
   type AnalysisSource,
@@ -27,6 +28,11 @@ export interface DamageAnalysisInput {
   repairNotes: string[];
   confidence: number;
   source: AnalysisSource;
+  brief: {
+    damageDescription: string;
+    designDescription: string;
+    framing: string;
+  };
 }
 
 export const toDamageAnalysis = (input: DamageAnalysisInput): DamageAnalysis =>
@@ -41,5 +47,10 @@ export const toDamageAnalysis = (input: DamageAnalysisInput): DamageAnalysis =>
     input.visualMotifs,
     input.repairNotes,
     input.confidence,
-    input.source
+    input.source,
+    new RestorationBrief(
+      input.brief.damageDescription,
+      input.brief.designDescription,
+      input.brief.framing
+    )
   );

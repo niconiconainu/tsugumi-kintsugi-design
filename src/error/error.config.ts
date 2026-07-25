@@ -27,6 +27,17 @@ export const ErrorConfig = {
     message: "Failed to analyze the uploaded image.",
     defaultHttpStatusCode: 502,
   },
+  IMAGE_NOT_REPAIRABLE: {
+    code: "A0003",
+    message: "This photo cannot be repaired with kintsugi.",
+    defaultHttpStatusCode: 422,
+  },
+  IMAGE_RESTORE_FAILED: {
+    code: "A0004",
+    message: "Failed to render the restored image.",
+    defaultHttpStatusCode: 502,
+  },
+
   IMAGE_TOO_LARGE: {
     code: "A0002",
     message: "Uploaded image exceeds the allowed size.",
