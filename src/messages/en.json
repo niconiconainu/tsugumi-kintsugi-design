@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "Tsugumi — kintsugi design, and the studio to make it",
-    "description": "From the story of a broken piece, Tsugumi proposes kintsugi designs, a matching studio, an estimated cost and how long it will take."
+    "description": "From a photo of a broken piece, Tsugumi shows it restored in gold, then finds a studio, an estimated cost and how long it will take."
   },
   "brand": {
     "name": "Tsugumi",
@@ -16,7 +16,6 @@
   },
   "steps": {
     "photo": "Photo",
-    "story": "Story",
     "design": "Design",
     "workshop": "Studio",
     "result": "Result"
@@ -33,7 +32,7 @@
       "step1Title": "Send a photo",
       "step1Body": "One picture of the cracked or chipped piece you can't bring yourself to throw away.",
       "step2Title": "See it reborn",
-      "step2Body": "Three kintsugi directions shaped by your story, drawn down to the seams.",
+      "step2Body": "Your own piece, shown whole again with gold seams following the real breaks.",
       "step3Title": "Meet a studio",
       "step3Body": "Compare fit, price and turnaround, and we connect you to someone who can take it on."
     },
@@ -53,7 +52,10 @@
       "artifactTypeHint": "e.g. rice bowl, plate, cup, vase, teapot",
       "materialLabel": "What material is it made of?",
       "materialHint": "e.g. earthenware, porcelain, stoneware, glass",
-      "cta": "Write its story →"
+      "cta": "Reveal my piece in gold →",
+      "prefectureLabel": "Where you'll be sending from",
+      "prefecturePlaceholder": "Select a prefecture",
+      "prefectureNote": "Used only to estimate return shipping and delivery days. We never ask for anything below prefecture level."
     }
   },
   "dropzone": {
@@ -66,23 +68,6 @@
     "errorType": "Please choose a JPEG or PNG image.",
     "errorRead": "We couldn't read that image. Please try a different photo."
   },
-  "story": {
-    "label": "Step 2 · Story",
-    "title": "Tell us about this piece.",
-    "lead": "What you write shapes the meaning of the seams and the choice of studio.",
-    "photoNote": "This photo is not saved on our servers. It is sent only to be analysed.",
-    "storyLabel": "The memory you want to keep",
-    "optional": "optional",
-    "storyPlaceholder": "e.g. A blue tea bowl I inherited from my grandmother. I still remember her drinking from it every morning. I'd like to keep that, but something restrained — like a cherry branch rather than anything showy.",
-    "tasteLabel": "Style you'd like",
-    "tasteHint": "choose any, optional",
-    "prefectureLabel": "Where you'll be sending from",
-    "prefecturePlaceholder": "Select a prefecture",
-    "prefectureNote": "Used only to estimate return shipping and delivery days. We never ask for anything below prefecture level.",
-    "priorityLabel": "What matters most",
-    "submit": "Ask the AI →",
-    "back": "Choose a different photo"
-  },
   "analyzing": {
     "label": "Step 3 · Reveal",
     "title": "Working out how to join it.",
@@ -90,11 +75,11 @@
     "stages": {
       "vision": "Reading the outline and the damage from the photo",
       "structure": "Sorting out material, colour and the state of the break",
-      "design": "Shaping the joinery around your story",
+      "design": "Rejoining the piece and laying the gold seams",
       "lines": "Drawing the seams"
     },
     "retry": "Try again",
-    "backToStory": "Back to the form",
+    "backToStory": "Choose a different photo",
     "networkError": "The request failed. Please try again.",
     "fallback": {
       "lead": "We couldn't read the photo. Choose the state of the damage and we'll carry on from there.",
@@ -106,7 +91,7 @@
   "design": {
     "label": "Step 3 · Reveal",
     "title": "How this piece could return, in gold.",
-    "lead": "Three directions drawn from the break and from your story. The seams are a sketch made in code — the real finish is decided by the studio's hands.",
+    "lead": "Your piece, brought back with the breaks left in view. The finish is decided by the studio's hands.",
     "before": "Before",
     "after": "Reborn in gold — choose one",
     "cta": "Find a studio for this →",
@@ -272,7 +257,7 @@
     "speed": "Speed"
   },
   "priorityDescription": {
-    "design": "Put the expression that suits the story first",
+    "design": "Put the expression that suits the piece first",
     "price": "Keep the total as low as possible",
     "speed": "Get it back in your hands sooner"
   },

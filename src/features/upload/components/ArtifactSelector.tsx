@@ -38,7 +38,6 @@ export const ArtifactSelector = ({
   const tArtifact = useTranslations("artifactType");
   const tMaterial = useTranslations("material");
   const tPrefecture = useTranslations("prefecture");
-  const tStory = useTranslations("story");
 
   return (
     <div className="mx-auto mt-10 grid max-w-[760px] gap-6 sm:grid-cols-2">
@@ -91,7 +90,7 @@ export const ArtifactSelector = ({
 
       <label className="block sm:col-span-2">
         <span className="text-ink text-[15px] font-semibold">
-          {tStory("prefectureLabel")}
+          {t("prefectureLabel")}
         </span>
         <select
           value={prefecture ?? ""}
@@ -100,7 +99,7 @@ export const ArtifactSelector = ({
           }
           className={FIELD_CLASS}
         >
-          <option value="">{tStory("prefecturePlaceholder")}</option>
+          <option value="">{t("prefecturePlaceholder")}</option>
           {PREFECTURES.map((code) => (
             <option key={code} value={code}>
               {tPrefecture(code)}
@@ -108,7 +107,7 @@ export const ArtifactSelector = ({
           ))}
         </select>
         <span className="text-ink-soft mt-1.5 block text-[13px]">
-          {tStory("prefectureNote")}
+          {t("prefectureNote")}
         </span>
       </label>
     </div>
